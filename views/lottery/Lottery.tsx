@@ -68,7 +68,7 @@ const Lottery = () => {
       setIsJoinPending(true)
 
       try {
-        await onEnterLottery(lotteryId, getBalanceInWei(lotteryState.minAmount || 0))
+        await onEnterLottery(lotteryId, getBalanceInWei(lotteryState.minAmount || 0).toString())
       } catch (err) {
         console.log('Joining lottery error:', err)
       }
