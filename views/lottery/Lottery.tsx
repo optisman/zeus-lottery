@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useLottery } from 'hooks/useLottery'
 import { useLotteryState } from 'state/hooks'
 import { fetchLotteryUserDataAsync } from 'state/actions'
-import { getBalanceInWei } from 'utils/formatBalance'
+import { getBalanceInWei, getBalanceInEther } from 'utils/formatBalance'
 
 const getLotteryStatus = {
   0: 'Not Started',
@@ -28,7 +28,7 @@ const Lottery = () => {
   const currrentLotteryPlayers = currentLottery && currentLottery.players ? currentLottery.players : []
   const currrentLotteryWinners = currentLottery && currentLottery.winners ? currentLottery.winners : []
   const currrentLotteryStatus = currentLottery && currentLottery.status ? currentLottery.status : 0
-  const isApproved = userData && userData.allowance && userData.allowance > 0
+  const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
 
   useEffect(() => {
     if (account) {

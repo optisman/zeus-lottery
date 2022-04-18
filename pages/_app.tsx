@@ -8,11 +8,13 @@ import { ModalProvider } from 'widgets/Modal'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const AnyComponent = Component as any
+
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <Provider store={store}>
         <ModalProvider>
-          <Component {...pageProps} />
+          <AnyComponent {...pageProps} />
         </ModalProvider>
       </Provider>
     </Web3ReactProvider>
