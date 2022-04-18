@@ -1,0 +1,34 @@
+import { ethers } from 'ethers'
+
+export const approveToken = async (tokenContract, LotteryContract, account) => {
+    return tokenContract.methods
+        .approve(LotteryContract.options.address, ethers.constants.MaxUint256)
+        .send({ from: account })
+}
+
+export const createLottery = async (LotteryContract, account) => {
+    return LotteryContract.methods
+        .createLottery()
+        .send({ from: account })
+        .on('transactionHash', (tx) => {
+            return tx.transactionHash
+        })
+}
+
+export const enterLottery = async (LotteryContract, lotteryId, amount, account) => {
+    return LotteryContract.methods
+        .enterLottery(lotteryId, amount)
+        .send({ from: account })
+        .on('transactionHash', (tx) => {
+            return tx.transactionHash
+        })
+}
+
+export const endLottery = async (LotteryContract, lotteryId, account) => {
+    return LotteryContract.methods
+        .endLottery(lotteryId)
+        .send({ from: account })
+        .on('transactionHash', (tx) => {
+            return tx.transactionHash
+        })
+}
