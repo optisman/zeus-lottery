@@ -4,8 +4,8 @@
       { "internalType": "address", "name": "_payToken", "type": "address" },
       { "internalType": "uint256", "name": "_minAmount", "type": "uint256" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
-      { "internalType": "address", "name": "_rewardDistributor", "type": "address" },
-      { "internalType": "uint256[]", "name": "_rewardAmounts", "type": "uint256[]" }
+      { "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" },
+      { "internalType": "uint256", "name": "_maxLotteryParticipantLen", "type": "uint256" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -49,27 +49,6 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_minAmount", "type": "uint256" }],
-    "name": "changeMinPayTokenAmount",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "_rewardDistributor", "type": "address" }],
-    "name": "changeRewardDistributor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "_treasury", "type": "address" }],
-    "name": "changeTreasury",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
   },
   { "inputs": [], "name": "createLottery", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
   {
@@ -116,13 +95,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getRewardAmounts",
-    "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "lotteries",
     "outputs": [
@@ -133,8 +105,32 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "address", "name": "", "type": "address" }
+    ],
+    "name": "lotteryUsers",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxLotteryParticipantLen",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "minAmount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "numberOfWinners",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -155,20 +151,6 @@
   },
   { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "rewardAmounts",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "rewardDistributor",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
     "name": "transferOwnership",
     "outputs": [],
@@ -180,6 +162,34 @@
     "name": "treasury",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "_maxLotteryParticipantLen", "type": "uint256" }],
+    "name": "updateMaxLotteryParticipantLen",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "_minAmount", "type": "uint256" }],
+    "name": "updateMinPayTokenAmount",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" }],
+    "name": "updateNumberOfWinners",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_treasury", "type": "address" }],
+    "name": "updateTreasury",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

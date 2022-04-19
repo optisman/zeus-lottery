@@ -147,9 +147,15 @@ const Lottery = () => {
                 </div>
               </LotteryInfoParticipants>
               <LotteryInfoWinners>
-                {currrentLotteryWinners.map((winner, index) => {
-                  return <LotteryWinner key={index}>{winner}</LotteryWinner>
-                })}
+                <div style={{ display: 'flex' }}>
+                  <LotteryLabel>Winners:</LotteryLabel>
+                  <div>{currrentLotteryWinners.length}</div>
+                </div>
+                <div>
+                  {currrentLotteryWinners.map((winner, index) => {
+                    return <LotteryWinner key={index}>{winner}</LotteryWinner>
+                  })}
+                </div>
               </LotteryInfoWinners>
             </LotteryInfoSection>
             <LotteryActionSection>
@@ -165,7 +171,7 @@ const Lottery = () => {
                     background: '#1799DE',
                     boarderRadius: '50%',
                   }}
-                  disabled={isJoinPending || !account}
+                  disabled={isJoinPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
                   onClick={() => onJoin(currentLotteryId)}
                 >
                   {getBtnName()}
@@ -183,7 +189,7 @@ const Lottery = () => {
                     background: '#1799DE',
                     boarderRadius: '50%',
                   }}
-                  disabled={isEndPending || !account}
+                  disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
                   onClick={onClose}
                 >
                   {isEndPending ? 'Pending...' : 'End Lottery'}
@@ -234,13 +240,15 @@ const LotteryInfoId = styled.div`
 `
 
 // lottery player
-const LotteryInfoParticipants = styled.div``
+const LotteryInfoParticipants = styled.div`
+  margin-top: 20px;
+`
 
 const LotteryPlayer = styled.div``
 
 // lottery winner
 const LotteryInfoWinners = styled.div`
-  display: flex;
+  margin-top: 20px;
 `
 
 const LotteryWinner = styled.div``

@@ -8,7 +8,8 @@ export default {
   // lottery
   lottery: {
     43114: '',
-    43113: '0xCB5402DbD1b36F3EAf121D034c2dF1d192669776',
+    // 43113: '0xCB5402DbD1b36F3EAf121D034c2dF1d192669776',
+    43113: '0x74bf6eC96dd3Dfe834F7BB384f46de1af7E0485a',
   },
 
   // multicall

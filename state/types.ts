@@ -15,8 +15,6 @@ export type TranslatableText =
     }
   }
 
-
-
 export interface LotteryInfo {
   players?: string[]
   creator?: string
@@ -34,7 +32,6 @@ export interface LotteryState {
   currentLottery?: LotteryInfo
   minAmount?: number
   payToken?: string
-  rewardAmounts?: number[]
   lotteries?: LotteryInfo[]
   userData?: LotteryUserInfo
 }
