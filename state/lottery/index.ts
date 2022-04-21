@@ -1,12 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import { fetchGlobalData } from './fetchGlobalLottery'
 import { fetchUserData } from './fetchUserLottery'
 import { LotteryState, LotteryInfo } from 'state/types'
 
 const initialState: LotteryState = {
   currentLotteryId: 0,
-  currentLottery: {},
+  currentLottery: {
+    players: [],
+    creator: "",
+    winners: [],
+    status: 0,
+    ticketPrice: new BigNumber(0),
+    maxTicketCnt: 0
+  },
   payToken: "",
   owner: "",
   lotteries: [] as LotteryInfo[],

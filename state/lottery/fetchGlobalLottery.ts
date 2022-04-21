@@ -43,16 +43,20 @@ export const fetchGlobalData = async () => {
   const _currentLottery = currentLottery.map((lottery) => {
     const players = lottery.players.map((player) => {
       return {
+        ticketId: (player.ticketId).toNumber(),
         account: player.account,
         joinedTimestamp: player.joinedTimestamp.toNumber()
       }
     })
 
+    const winners = lottery.winners.map((winner) => {
+      return winner.toNumber()
+    })
+
     return {
-      creator: lottery.creator,
+      ...lottery,
       players,
-      status: lottery.status,
-      winners: lottery.winners,
+      winners: winners
     }
   })
 

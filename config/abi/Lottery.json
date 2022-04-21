@@ -88,9 +88,10 @@
           { "internalType": "uint256", "name": "ticketPrice", "type": "uint256" },
           { "internalType": "uint256", "name": "maxTicketCnt", "type": "uint256" },
           { "internalType": "address", "name": "creator", "type": "address" },
-          { "internalType": "address[]", "name": "winners", "type": "address[]" },
+          { "internalType": "uint256[]", "name": "winners", "type": "uint256[]" },
           {
             "components": [
+              { "internalType": "uint256", "name": "ticketId", "type": "uint256" },
               { "internalType": "uint256", "name": "joinedTimestamp", "type": "uint256" },
               { "internalType": "address", "name": "account", "type": "address" }
             ],

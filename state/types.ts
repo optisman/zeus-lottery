@@ -16,6 +16,7 @@ export type TranslatableText =
   }
 
 export interface PlayerInfo {
+  ticketId: number
   account: string
   joinedTimestamp: number
 }
@@ -23,7 +24,7 @@ export interface PlayerInfo {
 export interface LotteryInfo {
   players: PlayerInfo[]
   creator: string
-  winners: string[]
+  winners: number[]
   status: number
   ticketPrice: BigNumber
   maxTicketCnt: number

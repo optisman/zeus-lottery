@@ -40,7 +40,7 @@ const Lottery = () => {
           .utc(Number(player.joinedTimestamp) * 1000)
           .local()
           .format('YYYY-MM-DD HH:mm:ss'),
-        isWinner: currrentLotteryWinners.includes(player.account) ? 1 : 0,
+        isWinner: currrentLotteryWinners.includes(player.ticketId) ? 1 : 0,
       }
     })
     .sort((player1, player2) => (player1.isWinner > player2.isWinner ? -1 : 1))
@@ -144,7 +144,7 @@ const Lottery = () => {
         {/* lottery participants table */}
         <LotteryParticipantTableContainer>
           <LotteryParticipantTableTop>
-            <LotteryParticipantTableTitle>Participants</LotteryParticipantTableTitle>
+            <LotteryParticipantTableTitle>{`Participants [ ${currentLottery?.players.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryParticipantTableTitle>
             <LotteryParticipantTableAction>
               {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
                 <StyledButton
@@ -265,6 +265,7 @@ const LotteryInfoCard = styled.div`
   border-radius: 8px;
   position: relative;
   overflow: hidden;
+  margin-bottom: 16px;
 `
 
 const CardBgImg = styled.img`
@@ -345,8 +346,9 @@ const LotteryStatus = styled.div`
 `
 
 const LotteryParticipantTableWrapper = styled.div`
-  overflow: scroll;
+  overflow-y: auto;
   margin: 5px 0 !important;
+  max-height: 500px;
 `
 
 const LotteryParticipantTable = styled.table`
