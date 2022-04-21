@@ -3,6 +3,7 @@ import { Box, Button } from 'theme-ui'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
+import moment from 'moment'
 import { useLottery } from 'hooks/useLottery'
 import { useLotteryState } from 'state/hooks'
 import { fetchLotteryUserDataAsync } from 'state/actions'
@@ -34,11 +35,15 @@ const Lottery = () => {
   const participantsWithWinnerOrder = currrentLotteryPlayers
     .map((player) => {
       return {
-        address: player,
-        isWinner: currrentLotteryWinners.includes(player) ? 1 : 0,
+        address: player.account,
+        joinedTime: moment
+          .utc(Number(player.joinedTimestamp) * 1000)
+          .local()
+          .format('YYYY-MM-DD HH:mm:ss'),
+        isWinner: currrentLotteryWinners.includes(player.account) ? 1 : 0,
       }
     })
-    .sort((player1, player2) => (player1.isWinner > player2.isWinner ? 1 : -1))
+    .sort((player1, player2) => (player1.isWinner > player2.isWinner ? -1 : 1))
 
   useEffect(() => {
     if (account) {
@@ -141,7 +146,7 @@ const Lottery = () => {
           <LotteryParticipantTableTop>
             <LotteryParticipantTableTitle>Participants</LotteryParticipantTableTitle>
             <LotteryParticipantTableAction>
-              {account && !isOwner && (
+              {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
                 <StyledButton
                   isApproveBtn={isApproved}
                   disabled={isJoinPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
@@ -151,7 +156,7 @@ const Lottery = () => {
                 </StyledButton>
               )}
 
-              {isOwner && (
+              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
                 <StyledButton
                   isApproveBtn={isApproved}
                   disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
@@ -160,6 +165,8 @@ const Lottery = () => {
                   {isEndPending ? 'Pending...' : 'End Lottery'}
                 </StyledButton>
               )}
+
+              {getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
             </LotteryParticipantTableAction>
           </LotteryParticipantTableTop>
           <LotteryParticipantTableWrapper>
@@ -180,13 +187,13 @@ const Lottery = () => {
                     <tr>
                       <td>{index + 1}</td>
                       <td>{player.address}</td>
-                      <td>12-04-2022</td>
+                      <td>{player.joinedTime}</td>
                       <td>
                         <ParticipantStatus isWinner={player.isWinner === 1 ? true : false}>
-                          Prticipated
+                          {player.isWinner ? 'Winner' : 'Prticipated'}
                         </ParticipantStatus>
                       </td>
-                      <td>{`$123.45`}</td>
+                      <td>{`--`}</td>
                     </tr>
                   )
                 })}
@@ -325,6 +332,14 @@ const StyledButton = styled(Button)<{ isApproveBtn?: boolean }>`
   color: ${({ isApproveBtn }) => (isApproveBtn ? '#fff' : '#214099')};
   margin-left: 20px;
   cursor: pointer;
+`
+
+const LotteryStatus = styled.div`
+  font-size: 24px;
+  color: red;
+  font-weight: 600;
+  margin-top: 10px;
+  font-family: 'Work Sans', sans-serif;
 `
 
 const LotteryParticipantTableWrapper = styled.div`

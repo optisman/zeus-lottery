@@ -81,7 +81,15 @@
     "outputs": [
       {
         "components": [
-          { "internalType": "address[]", "name": "players", "type": "address[]" },
+          {
+            "components": [
+              { "internalType": "address", "name": "account", "type": "address" },
+              { "internalType": "uint256", "name": "joinedTimestamp", "type": "uint256" }
+            ],
+            "internalType": "struct Lottery.PlayerInfo[]",
+            "name": "players",
+            "type": "tuple[]"
+          },
           { "internalType": "address", "name": "creator", "type": "address" },
           { "internalType": "address[]", "name": "winners", "type": "address[]" },
           { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" }

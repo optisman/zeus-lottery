@@ -23,6 +23,7 @@
     "@web3-react/walletconnect-connector": "^6.2.13",
     "@web3-react/walletlink-connector": "^6.2.13",
     "ethers": "^5.5.3",
+    "moment": "^2.29.3",
     "next": "12.1.0",
     "prettier": "^2.6.0",
     "react": "17.0.2",

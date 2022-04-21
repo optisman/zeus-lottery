@@ -15,8 +15,13 @@ export type TranslatableText =
     }
   }
 
+export interface PlayerInfo {
+  account: string
+  joinedTimestamp: number
+}
+
 export interface LotteryInfo {
-  players?: string[]
+  players?: PlayerInfo[]
   creator?: string
   winners?: string[]
   status?: number
