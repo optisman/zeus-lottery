@@ -21,7 +21,7 @@ const Lottery = () => {
   const [isJoinPending, setIsJoinPending] = useState(false)
   const { account } = useWeb3React()
 
-  const { onApprove, onCreateLottery, onEnterLottery, onEndLottery } = useLottery()
+  const { onApprove, onEnterLottery, onEndLottery } = useLottery()
   const lotteryState = useLotteryState()
   const { currentLotteryId, currentLottery, userData, owner } = lotteryState
   const currrentLotteryPlayers = currentLottery && currentLottery.players ? currentLottery.players : []
@@ -186,7 +186,7 @@ const Lottery = () => {
                           Prticipated
                         </ParticipantStatus>
                       </td>
-                      <td>$123.45</td>
+                      <td>{`$123.45`}</td>
                     </tr>
                   )
                 })}
