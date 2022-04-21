@@ -7,7 +7,7 @@ import moment from 'moment'
 import { useLottery } from 'hooks/useLottery'
 import { useLotteryState } from 'state/hooks'
 import { fetchLotteryUserDataAsync } from 'state/actions'
-import { getBalanceInWei, getBalanceInEther } from 'utils/formatBalance'
+import { getBalanceInEther } from 'utils/formatBalance'
 
 const getLotteryStatus = {
   0: 'Not Started',
@@ -69,7 +69,7 @@ const Lottery = () => {
       setIsJoinPending(true)
 
       try {
-        await onEnterLottery(lotteryId, getBalanceInWei(lotteryState.minAmount || 0).toString())
+        await onEnterLottery(lotteryId, currentLottery ? currentLottery.ticketPrice : 0)
       } catch (err) {
         console.log('Joining lottery error:', err)
       }
@@ -166,7 +166,9 @@ const Lottery = () => {
                 </StyledButton>
               )}
 
-              {getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
+              {currentLotteryId !== undefined &&
+                currentLotteryId > 0 &&
+                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
             </LotteryParticipantTableAction>
           </LotteryParticipantTableTop>
           <LotteryParticipantTableWrapper>

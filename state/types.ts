@@ -21,10 +21,12 @@ export interface PlayerInfo {
 }
 
 export interface LotteryInfo {
-  players?: PlayerInfo[]
-  creator?: string
-  winners?: string[]
-  status?: number
+  players: PlayerInfo[]
+  creator: string
+  winners: string[]
+  status: number
+  ticketPrice: BigNumber
+  maxTicketCnt: number
 }
 
 export interface LotteryUserInfo {
@@ -35,7 +37,6 @@ export interface LotteryUserInfo {
 export interface LotteryState {
   currentLotteryId?: number
   currentLottery?: LotteryInfo
-  minAmount?: number
   payToken?: string
   owner?: string
   lotteries?: LotteryInfo[]

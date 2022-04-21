@@ -6,9 +6,9 @@ export const approveToken = async (tokenContract, LotteryContract, account) => {
         .send({ from: account })
 }
 
-export const createLottery = async (LotteryContract, account) => {
+export const createLottery = async (LotteryContract, account, ticketPrice, maxTicketCnt) => {
     return LotteryContract.methods
-        .createLottery()
+        .createLottery(ticketPrice, maxTicketCnt)
         .send({ from: account })
         .on('transactionHash', (tx) => {
             return tx.transactionHash

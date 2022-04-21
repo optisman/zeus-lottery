@@ -7,7 +7,6 @@ import { LotteryState, LotteryInfo } from 'state/types'
 const initialState: LotteryState = {
   currentLotteryId: 0,
   currentLottery: {},
-  minAmount: 0,
   payToken: "",
   owner: "",
   lotteries: [] as LotteryInfo[],
@@ -20,7 +19,6 @@ export const LotterySlice = createSlice({
   reducers: {
     setLotteryGlobalData: (state, action) => {
       state.currentLotteryId = action.payload.currentLotteryId;
-      state.minAmount = action.payload.minAmount;
       state.payToken = action.payload.payToken;
       state.owner = action.payload.owner;
       state.currentLottery = action.payload.lotteries[0];
@@ -42,7 +40,6 @@ export const { setLotteryGlobalData, setLotteryUserData } = LotterySlice.actions
 export const fetchLotteryGlobalDataAsync = () => async (dispatch) => {
   const {
     currentLotteryId,
-    minAmount,
     payToken,
     lotteries,
     owner
@@ -51,7 +48,6 @@ export const fetchLotteryGlobalDataAsync = () => async (dispatch) => {
   dispatch(
     setLotteryGlobalData({
       currentLotteryId,
-      minAmount,
       payToken,
       lotteries,
       owner

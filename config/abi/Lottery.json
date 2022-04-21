@@ -2,10 +2,8 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_payToken", "type": "address" },
-      { "internalType": "uint256", "name": "_minAmount", "type": "uint256" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
-      { "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" },
-      { "internalType": "uint256", "name": "_maxLotteryParticipantLen", "type": "uint256" }
+      { "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -50,7 +48,16 @@
     "name": "OwnershipTransferred",
     "type": "event"
   },
-  { "inputs": [], "name": "createLottery", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_ticketPrice", "type": "uint256" },
+      { "internalType": "uint256", "name": "_maxTicketCnt", "type": "uint256" }
+    ],
+    "name": "createLottery",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
   {
     "inputs": [],
     "name": "currentLotteryId",
@@ -66,10 +73,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "_lotteryId", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }],
     "name": "enterLottery",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -81,17 +85,19 @@
     "outputs": [
       {
         "components": [
+          { "internalType": "uint256", "name": "ticketPrice", "type": "uint256" },
+          { "internalType": "uint256", "name": "maxTicketCnt", "type": "uint256" },
+          { "internalType": "address", "name": "creator", "type": "address" },
+          { "internalType": "address[]", "name": "winners", "type": "address[]" },
           {
             "components": [
-              { "internalType": "address", "name": "account", "type": "address" },
-              { "internalType": "uint256", "name": "joinedTimestamp", "type": "uint256" }
+              { "internalType": "uint256", "name": "joinedTimestamp", "type": "uint256" },
+              { "internalType": "address", "name": "account", "type": "address" }
             ],
             "internalType": "struct Lottery.PlayerInfo[]",
             "name": "players",
             "type": "tuple[]"
           },
-          { "internalType": "address", "name": "creator", "type": "address" },
-          { "internalType": "address[]", "name": "winners", "type": "address[]" },
           { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" }
         ],
         "internalType": "struct Lottery.LotteryInfo",
@@ -106,6 +112,8 @@
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "lotteries",
     "outputs": [
+      { "internalType": "uint256", "name": "ticketPrice", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxTicketCnt", "type": "uint256" },
       { "internalType": "address", "name": "creator", "type": "address" },
       { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" }
     ],
@@ -119,20 +127,6 @@
     ],
     "name": "lotteryUsers",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "maxLotteryParticipantLen",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minAmount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -170,20 +164,6 @@
     "name": "treasury",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_maxLotteryParticipantLen", "type": "uint256" }],
-    "name": "updateMaxLotteryParticipantLen",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_minAmount", "type": "uint256" }],
-    "name": "updateMinPayTokenAmount",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
