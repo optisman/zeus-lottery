@@ -186,7 +186,7 @@ const Lottery = () => {
               <tbody>
                 {participantsWithWinnerOrder.map((player, index) => {
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{player.address}</td>
                       <td>{player.joinedTime}</td>
