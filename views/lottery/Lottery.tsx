@@ -69,7 +69,7 @@ const Lottery = () => {
       setIsJoinPending(true)
 
       try {
-        await onEnterLottery(lotteryId, currentLottery ? currentLottery.ticketPrice : 0)
+        await onEnterLottery(lotteryId)
       } catch (err) {
         console.log('Joining lottery error:', err)
       }

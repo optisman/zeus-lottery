@@ -15,9 +15,9 @@ export const createLottery = async (LotteryContract, account, ticketPrice, maxTi
         })
 }
 
-export const enterLottery = async (LotteryContract, lotteryId, amount, account) => {
+export const enterLottery = async (LotteryContract, lotteryId, account) => {
     return LotteryContract.methods
-        .enterLottery(lotteryId, amount)
+        .enterLottery(lotteryId)
         .send({ from: account })
         .on('transactionHash', (tx) => {
             return tx.transactionHash
