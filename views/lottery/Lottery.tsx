@@ -122,7 +122,7 @@ const Lottery = () => {
             <CardTop>
               <CardTitle>Lottery Participants</CardTitle>
               <CardIcon>
-                <i className="uil uil-list-ul icon"></i>
+                <i className="uil uil-users-alt icon"></i>
               </CardIcon>
             </CardTop>
             <CardBottom>{currrentLotteryPlayers.length}</CardBottom>
@@ -134,7 +134,7 @@ const Lottery = () => {
             <CardTop>
               <CardTitle>Lottery Winners</CardTitle>
               <CardIcon>
-                <i className="uil uil-list-ul icon"></i>
+                <i className="uil uil-trophy icon"></i>
               </CardIcon>
             </CardTop>
             <CardBottom>{currrentLotteryWinners.length}</CardBottom>
