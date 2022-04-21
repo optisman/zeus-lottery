@@ -1,7 +1,7 @@
 import React from 'react'
 import type { NextPage } from 'next'
-import { Lottery } from 'views/lottery'
 import { Header } from 'components/Header'
+import { Lottery } from 'views/lottery'
 import { useFetchPublicData } from 'state/hooks'
 
 const HomePage: NextPage = () => {
@@ -14,5 +14,4 @@ const HomePage: NextPage = () => {
     </>
   )
 }
-
 export default HomePage

@@ -9,6 +9,7 @@ const initialState: LotteryState = {
   currentLottery: {},
   minAmount: 0,
   payToken: "",
+  owner: "",
   lotteries: [] as LotteryInfo[],
   userData: {}
 }
@@ -21,6 +22,7 @@ export const LotterySlice = createSlice({
       state.currentLotteryId = action.payload.currentLotteryId;
       state.minAmount = action.payload.minAmount;
       state.payToken = action.payload.payToken;
+      state.owner = action.payload.owner;
       state.currentLottery = action.payload.lotteries[0];
       state.lotteries = action.payload.lotteries;
     },
@@ -42,7 +44,8 @@ export const fetchLotteryGlobalDataAsync = () => async (dispatch) => {
     currentLotteryId,
     minAmount,
     payToken,
-    lotteries
+    lotteries,
+    owner
   } = await fetchGlobalData()
 
   dispatch(
@@ -50,7 +53,8 @@ export const fetchLotteryGlobalDataAsync = () => async (dispatch) => {
       currentLotteryId,
       minAmount,
       payToken,
-      lotteries
+      lotteries,
+      owner
     }),
   )
 }

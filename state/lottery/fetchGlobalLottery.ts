@@ -10,6 +10,7 @@ export const fetchGlobalData = async () => {
     currentLotteryId,
     minAmount,
     payToken,
+    owner
   ] = await multicall(
     LotteryAbi,
     [
@@ -24,6 +25,9 @@ export const fetchGlobalData = async () => {
       {
         address: getLotteryAddress(),
         name: 'payToken',
+      }, {
+        address: getLotteryAddress(),
+        name: 'owner',
       }
     ],
   )
@@ -45,6 +49,7 @@ export const fetchGlobalData = async () => {
     currentLotteryId: new BigNumber(currentLotteryId).toNumber(),
     minAmount: new BigNumber(minAmount).div(new BigNumber(10).pow(18)).toNumber(),
     payToken: payToken[0],
-    lotteries: currentLottery
+    lotteries: currentLottery,
+    owner: owner[0]
   }
 }

@@ -17,7 +17,7 @@ const ConnectWallet = (props) => {
     <>
       {isHeaderBtn ? (
         <Button
-          sx={{ background: '#1799DE', borderRadius: '50px', padding: '0px 48.5px', cursor: 'pointer' }}
+          sx={{ background: '#1799DE', borderRadius: '50px', padding: '0px 24px', cursor: 'pointer' }}
           onClick={() => {
             if (account) return
             onPresentConnectModal()
@@ -28,13 +28,7 @@ const ConnectWallet = (props) => {
             <>{accountEllipsis}</>
           ) : (
             <>
-              <Box
-                sx={{
-                  marginRight: '9px',
-                }}
-              >
-                {'Connect Wallet'}
-              </Box>
+              <Box>{'Connect Wallet'}</Box>
             </>
           )}
         </Button>
