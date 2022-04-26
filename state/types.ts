@@ -39,6 +39,7 @@ export interface LotteryState {
   currentLotteryId?: number
   currentLottery?: LotteryInfo
   payToken?: string
+  maxTicketQuantityPerJoin?: number
   owner?: string
   lotteries?: LotteryInfo[]
   userData?: LotteryUserInfo

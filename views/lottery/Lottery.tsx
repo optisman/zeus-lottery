@@ -8,6 +8,7 @@ import { useLottery } from 'hooks/useLottery'
 import { useLotteryState } from 'state/hooks'
 import { fetchLotteryUserDataAsync } from 'state/actions'
 import { getBalanceInEther } from 'utils/formatBalance'
+import { JoinModal } from './JoinModal'
 
 const getLotteryStatus = {
   0: 'Not Started',
@@ -15,16 +16,38 @@ const getLotteryStatus = {
   2: 'Closed',
 }
 
+const getRankingText = (ranking) => {
+  let suffix = 'th Plane'
+  if (ranking === 1) suffix = 'st Place'
+  if (ranking === 2) suffix = 'nd Place'
+  if (ranking === 3) suffix = 'rd Place'
+
+  return `${ranking}${suffix}`
+}
+
+const getRewardPercentage = (ranking) => {
+  if (ranking === 1) return '48.00%'
+  if (ranking === 2) return '15.00%'
+  if (ranking === 3) return '10.00%'
+  if (ranking === 4) return '7.00%'
+  if (ranking === 5) return '5.00%'
+  if (ranking === 6) return '4.00%'
+  if (ranking === 7) return '4.00%'
+  if (ranking === 8) return '3.00%'
+  if (ranking === 9) return '2.00%'
+  if (ranking === 10) return '1 Zeus Node'
+}
+
 const Lottery = () => {
   const dispatch = useDispatch()
 
   const [isEndPending, setEndPending] = useState(false)
-  const [isJoinPending, setIsJoinPending] = useState(false)
+  const [isJoinModalOpened, setIsJoinModalOpened] = useState(false)
   const { account } = useWeb3React()
 
-  const { onApprove, onEnterLottery, onEndLottery } = useLottery()
+  const { onEndLottery } = useLottery()
   const lotteryState = useLotteryState()
-  const { currentLotteryId, currentLottery, userData, owner } = lotteryState
+  const { currentLotteryId, currentLottery, userData, owner, maxTicketQuantityPerJoin } = lotteryState
   const currrentLotteryPlayers = currentLottery && currentLottery.players ? currentLottery.players : []
   const currrentLotteryWinners = currentLottery && currentLottery.winners ? currentLottery.winners : []
   const currrentLotteryStatus = currentLottery && currentLottery.status ? currentLottery.status : 0
@@ -51,32 +74,6 @@ const Lottery = () => {
     }
   }, [account, dispatch])
 
-  // join lottery
-  const onJoin = async (lotteryId) => {
-    if (!account) return
-
-    if (!isApproved) {
-      setIsJoinPending(true)
-
-      try {
-        await onApprove()
-      } catch (err) {
-        console.log('Approve error:', err)
-      }
-
-      setIsJoinPending(false)
-    } else {
-      setIsJoinPending(true)
-
-      try {
-        await onEnterLottery(lotteryId)
-      } catch (err) {
-        console.log('Joining lottery error:', err)
-      }
-      setIsJoinPending(false)
-    }
-  }
-
   // end lottery
   const onClose = async () => {
     if (!account) return
@@ -91,10 +88,8 @@ const Lottery = () => {
     setEndPending(false)
   }
 
-  // get name of "Join/Approve" button
-  const getBtnName = () => {
-    if (isJoinPending) return 'Pending...'
-    return isApproved ? 'Join Lottery' : 'Approve'
+  const onToggleJoinLotteryModal = () => {
+    setIsJoinModalOpened(!isJoinModalOpened)
   }
 
   return (
@@ -142,67 +137,106 @@ const Lottery = () => {
         </LotteryInfoCards>
 
         {/* lottery participants table */}
-        <LotteryParticipantTableContainer>
-          <LotteryParticipantTableTop>
-            <LotteryParticipantTableTitle>{`Participants [ ${currentLottery?.players.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryParticipantTableTitle>
-            <LotteryParticipantTableAction>
-              {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-                <StyledButton
-                  isApproveBtn={isApproved}
-                  disabled={isJoinPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
-                  onClick={() => onJoin(currentLotteryId)}
-                >
-                  {getBtnName()}
-                </StyledButton>
-              )}
+        {getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+          <LotteryParticipantTableContainer>
+            <LotteryParticipantTableTop>
+              <LotteryParticipantTableTitle>{`Participants [ ${currentLottery?.players.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryParticipantTableTitle>
+              <LotteryParticipantTableAction>
+                {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+                  <StyledButton
+                    disabled={!account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
+                    onClick={onToggleJoinLotteryModal}
+                  >
+                    {`Join`}
+                  </StyledButton>
+                )}
 
-              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-                <StyledButton
-                  isApproveBtn={isApproved}
-                  disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
-                  onClick={onClose}
-                >
-                  {isEndPending ? 'Pending...' : 'End Lottery'}
-                </StyledButton>
-              )}
+                {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+                  <StyledButton
+                    isApproveBtn={isApproved}
+                    disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
+                    onClick={onClose}
+                  >
+                    {isEndPending ? 'Pending...' : 'End Lottery'}
+                  </StyledButton>
+                )}
 
-              {currentLotteryId !== undefined &&
-                currentLotteryId > 0 &&
-                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
-            </LotteryParticipantTableAction>
-          </LotteryParticipantTableTop>
-          <LotteryParticipantTableWrapper>
-            <LotteryParticipantTable>
-              <thead>
-                <tr>
-                  <th>S/No</th>
-                  <th>Wallet</th>
-                  <th>Joined On</th>
-                  <th>Status</th>
-                  <th>Reward</th>
-                </tr>
-              </thead>
+                {currentLotteryId !== undefined &&
+                  currentLotteryId > 0 &&
+                  getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
+              </LotteryParticipantTableAction>
+            </LotteryParticipantTableTop>
+            <LotteryParticipantTableWrapper>
+              <LotteryParticipantTable>
+                <thead>
+                  <tr>
+                    <th>S/No</th>
+                    <th>Wallet</th>
+                    <th>Joined On</th>
+                    <th>Status</th>
+                    <th>Reward</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {participantsWithWinnerOrder.map((player, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{player.address}</td>
-                      <td>{player.joinedTime}</td>
-                      <td>
-                        <ParticipantStatus isWinner={player.isWinner === 1 ? true : false}>
-                          {player.isWinner ? 'Winner' : 'Prticipated'}
-                        </ParticipantStatus>
-                      </td>
-                      <td>{`--`}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </LotteryParticipantTable>
-          </LotteryParticipantTableWrapper>
-        </LotteryParticipantTableContainer>
+                <tbody>
+                  {participantsWithWinnerOrder.map((player, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{player.address}</td>
+                        <td>{player.joinedTime}</td>
+                        <td>
+                          <ParticipantStatus isWinner={player.isWinner === 1 ? true : false}>
+                            {player.isWinner ? 'Winner' : 'Prticipated'}
+                          </ParticipantStatus>
+                        </td>
+                        <td>{`--`}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </LotteryParticipantTable>
+            </LotteryParticipantTableWrapper>
+          </LotteryParticipantTableContainer>
+        )}
+
+        {/* lottery winner table */}
+        {getLotteryStatus[currrentLotteryStatus] === 'Closed' && (
+          <LotteryWinnerTableContainer>
+            <LotteryWinnerTableTop>
+              <LotteryWinnerTableTitle>{`Winners [ ${currentLottery?.winners.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryWinnerTableTitle>
+            </LotteryWinnerTableTop>
+            <LotteryWinnerTableWrapper>
+              <LotteryWinnerTable>
+                <thead>
+                  <tr>
+                    <th>Rankings</th>
+                    <th>Winner</th>
+                    <th>Percentage</th>
+                    <th>Joined On</th>
+                    <th>Reward</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((player1, index) => {
+                    const player = participantsWithWinnerOrder[index]
+                    return (
+                      <tr key={index}>
+                        <td>{getRankingText(index + 1)}</td>
+                        <td>{player.isWinner ? player.address : ''}</td>
+                        <td>{getRewardPercentage(index + 1)}</td>
+                        <td>{player.isWinner ? player.joinedTime : '--'}</td>
+                        <td>{`--`}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </LotteryWinnerTable>
+            </LotteryWinnerTableWrapper>
+          </LotteryWinnerTableContainer>
+        )}
+
         <Box p={3}>
           <Box
             sx={{
@@ -211,6 +245,8 @@ const Lottery = () => {
             }}
           ></Box>
         </Box>
+
+        {isJoinModalOpened && <JoinModal modalIsOpen={isJoinModalOpened} closeModal={onToggleJoinLotteryModal} />}
       </LotteryContent>
     </LotteryContainer>
   )
@@ -385,4 +421,63 @@ const ParticipantStatus = styled.div<{ isWinner?: boolean }>`
   background-color: ${({ isWinner }) => (isWinner ? '#219A8B' : '#989A21')};
 `
 
+// lottery winner table
+
+// lottery participants table
+const LotteryWinnerTableContainer = styled.div``
+
+const LotteryWinnerTableTop = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`
+
+const LotteryWinnerTableTitle = styled.div`
+  font-size: 24px;
+  color: #fff;
+  font-weight: 600;
+  margin-top: 10px;
+  font-family: 'Work Sans', sans-serif;
+`
+
+const LotteryWinnerTableWrapper = styled.div`
+  overflow-y: auto;
+  margin: 5px 0 !important;
+  max-height: 500px;
+`
+
+const LotteryWinnerTable = styled.table`
+  width: 100%;
+  border: 1px solid #0c0f38;
+  border-radius: 8px;
+  color: #bebebe;
+  text-align: start;
+
+  th,
+  tr,
+  td {
+    padding: 0.75rem 0.5rem;
+    text-align: start;
+  }
+
+  thead {
+    vertical-align: bottom;
+    background-color: #2e3c67;
+  }
+
+  tbody tr td {
+    border-bottom: 1px solid #8eb7f5;
+  }
+`
+
+const WinnerStatus = styled.div<{ isWinner?: boolean }>`
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: #fff;
+  width: max-content;
+  font-weight: 600;
+  font-size: 12px;
+  background-color: ${({ isWinner }) => (isWinner ? '#219A8B' : '#989A21')};
+`
 export default Lottery

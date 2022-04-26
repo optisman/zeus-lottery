@@ -32,8 +32,8 @@ export const useLottery = () => {
     console.info(txHash)
   }, [account, dispatch, LotteryContract])
 
-  const handleEnterLottery = useCallback(async (lotteryId) => {
-    const txHash = await enterLottery(LotteryContract, lotteryId, account)
+  const handleEnterLottery = useCallback(async (lotteryId, ticketQuantity) => {
+    const txHash = await enterLottery(LotteryContract, lotteryId, ticketQuantity, account)
     dispatch(fetchLotteryUserDataAsync(account))
     dispatch(fetchLotteryGlobalDataAsync())
     console.info(txHash)
