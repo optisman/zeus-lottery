@@ -3,7 +3,8 @@
     "inputs": [
       { "internalType": "address", "name": "_payToken", "type": "address" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
-      { "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" }
+      { "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" },
+      { "internalType": "uint256", "name": "_maxTicketQuantityPerJoin", "type": "uint256" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -34,6 +35,7 @@
       { "indexed": true, "internalType": "address", "name": "participant", "type": "address" },
       { "indexed": true, "internalType": "uint256", "name": "lotteryId", "type": "uint256" },
       { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "quantity", "type": "uint256" },
       { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
     ],
     "name": "LotteryEntered",
@@ -47,6 +49,16 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_participant", "type": "address" },
+      { "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }
+    ],
+    "name": "_enterLottery",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -73,7 +85,10 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }],
+    "inputs": [
+      { "internalType": "uint256", "name": "_lotteryId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_ticketQuantity", "type": "uint256" }
+    ],
     "name": "enterLottery",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -128,6 +143,13 @@
     ],
     "name": "lotteryUsers",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxTicketQuantityPerJoin",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
