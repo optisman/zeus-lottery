@@ -69,7 +69,8 @@ export const fetchGlobalData = async () => {
       ...lottery,
       players,
       winners: winners,
-      ticketPrice: getBalanceInEther(new BigNumber(lottery.ticketPrice._hex))
+      ticketPrice: getBalanceInEther(new BigNumber(lottery.ticketPrice._hex)),
+      maxTicketCnt: new BigNumber(lottery.maxTicketCnt._hex).toNumber(),
     }
   })
 
