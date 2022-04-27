@@ -17,7 +17,7 @@ const getLotteryStatus = {
 }
 
 const getRankingText = (ranking) => {
-  let suffix = 'th Plane'
+  let suffix = 'th Place'
   if (ranking === 1) suffix = 'st Place'
   if (ranking === 2) suffix = 'nd Place'
   if (ranking === 3) suffix = 'rd Place'
@@ -26,14 +26,14 @@ const getRankingText = (ranking) => {
 }
 
 const getRewardPercentage = (ranking) => {
-  if (ranking === 1) return '48.00%'
-  if (ranking === 2) return '15.00%'
-  if (ranking === 3) return '10.00%'
-  if (ranking === 4) return '7.00%'
+  if (ranking === 1) return '50.00%'
+  if (ranking === 2) return '17.00%'
+  if (ranking === 3) return '11.00%'
+  if (ranking === 4) return '6.00%'
   if (ranking === 5) return '5.00%'
   if (ranking === 6) return '4.00%'
-  if (ranking === 7) return '4.00%'
-  if (ranking === 8) return '3.00%'
+  if (ranking === 7) return '3.00%'
+  if (ranking === 8) return '2.00%'
   if (ranking === 9) return '2.00%'
   if (ranking === 10) return '1 Zeus Node'
 }
@@ -137,7 +137,7 @@ const Lottery = () => {
         </LotteryInfoCards>
 
         {/* lottery participants table */}
-        {getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+        {/* {getLotteryStatus[currrentLotteryStatus] === 'Active' && (
           <LotteryParticipantTableContainer>
             <LotteryParticipantTableTop>
               <LotteryParticipantTableTitle>{`Participants [ ${currentLottery?.players.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryParticipantTableTitle>
@@ -198,44 +198,62 @@ const Lottery = () => {
               </LotteryParticipantTable>
             </LotteryParticipantTableWrapper>
           </LotteryParticipantTableContainer>
-        )}
+        )} */}
 
         {/* lottery winner table */}
-        {getLotteryStatus[currrentLotteryStatus] === 'Closed' && (
-          <LotteryWinnerTableContainer>
-            <LotteryWinnerTableTop>
-              <LotteryWinnerTableTitle>{`Winners [ ${currentLottery?.winners.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryWinnerTableTitle>
-            </LotteryWinnerTableTop>
-            <LotteryWinnerTableWrapper>
-              <LotteryWinnerTable>
-                <thead>
-                  <tr>
-                    <th>Rankings</th>
-                    <th>Winner</th>
-                    <th>Percentage</th>
-                    <th>Joined On</th>
-                    <th>Reward</th>
-                  </tr>
-                </thead>
+        <LotteryWinnerTableContainer>
+          <LotteryWinnerTableTop>
+            <LotteryWinnerTableTitle>{`Winners [ ${currentLottery?.winners.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryWinnerTableTitle>
+            <LotteryTableAction>
+              {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+                <StyledButton
+                  disabled={!account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
+                  onClick={onToggleJoinLotteryModal}
+                >
+                  {`Join`}
+                </StyledButton>
+              )}
 
-                <tbody>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((player1, index) => {
-                    const player = participantsWithWinnerOrder[index]
-                    return (
-                      <tr key={index}>
-                        <td>{getRankingText(index + 1)}</td>
-                        <td>{player.isWinner ? player.address : ''}</td>
-                        <td>{getRewardPercentage(index + 1)}</td>
-                        <td>{player.isWinner ? player.joinedTime : '--'}</td>
-                        <td>{`--`}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </LotteryWinnerTable>
-            </LotteryWinnerTableWrapper>
-          </LotteryWinnerTableContainer>
-        )}
+              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+                <StyledButton
+                  isApproveBtn={isApproved}
+                  disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
+                  onClick={onClose}
+                >
+                  {isEndPending ? 'Pending...' : 'End Lottery'}
+                </StyledButton>
+              )}
+
+              {currentLotteryId !== undefined &&
+                currentLotteryId > 0 &&
+                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
+            </LotteryTableAction>
+          </LotteryWinnerTableTop>
+          <LotteryWinnerTableWrapper>
+            <LotteryWinnerTable>
+              <thead>
+                <tr>
+                  <th>Rankings</th>
+                  <th>Winner</th>
+                  <th>Percentage</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((player1, index) => {
+                  const player = participantsWithWinnerOrder[index]
+                  return (
+                    <tr key={index}>
+                      <td>{getRankingText(index + 1)}</td>
+                      <td>{player && player.isWinner ? player.address : ''}</td>
+                      <td>{getRewardPercentage(index + 1)}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </LotteryWinnerTable>
+          </LotteryWinnerTableWrapper>
+        </LotteryWinnerTableContainer>
 
         <Box p={3}>
           <Box
@@ -441,10 +459,14 @@ const LotteryWinnerTableTitle = styled.div`
   font-family: 'Work Sans', sans-serif;
 `
 
+const LotteryTableAction = styled.div`
+  display: flex;
+`
+
 const LotteryWinnerTableWrapper = styled.div`
   overflow-y: auto;
   margin: 5px 0 !important;
-  max-height: 500px;
+  max-height: 550px;
 `
 
 const LotteryWinnerTable = styled.table`
