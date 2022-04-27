@@ -124,7 +124,7 @@ const Lottery = () => {
             <CardTop>
               <CardTitle>Wallet Balance</CardTitle>
               <CardIcon>
-                <i className="uil uil-list-ul icon"></i>
+                <i className="uil uil-wallet icon"></i>
               </CardIcon>
             </CardTop>
             <CardBottom>{`${zeusTokenBalanceInWallet?.toLocaleString() || 0} zeus`}</CardBottom>
@@ -151,7 +151,7 @@ const Lottery = () => {
                 <i className="uil uil-users-alt icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${currrentLotteryPlayers.length} / ${currentLotteryMaxTicketCnt}`}</CardBottom>
+            <CardBottom>{`${currrentLotteryPlayers.length} / ${currentLotteryMaxTicketCnt} tickets`}</CardBottom>
           </LotteryInfoCard>
 
           {/* lottery prize pool */}
