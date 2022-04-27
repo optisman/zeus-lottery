@@ -148,7 +148,7 @@ const Lottery = () => {
                 <i className="uil uil-trophy icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${prizePoolAmount} Zenus`}</CardBottom>
+            <CardBottom>{`${prizePoolAmount} Zeus`}</CardBottom>
           </LotteryInfoCard>
         </LotteryInfoCards>
 
