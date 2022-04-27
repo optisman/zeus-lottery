@@ -94,7 +94,7 @@ const JoinModal = (props) => {
               <StyledInput>
                 <Input value={ticketQuantity} onChange={onSetTicketQuantity} />
               </StyledInput>
-              <StyledInputInfo>{`Users can buy upto ${maxTicketQuantityPerJoin} tickets per wallet.`}</StyledInputInfo>
+              <StyledInputInfo>{`Users can buy up to ${maxTicketQuantityPerJoin} tickets per wallet.`}</StyledInputInfo>
             </StyledInputWrapper>
           </InputContainer>
           <ActionContainer>

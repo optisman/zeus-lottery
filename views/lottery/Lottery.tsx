@@ -42,11 +42,11 @@ const Lottery = () => {
   const dispatch = useDispatch()
 
   const [isEndPending, setEndPending] = useState(false)
-  const [isDistributionPending, setIsDistributionPending] = useState(false)
+  const [isClaimPending, setIsClaimPending] = useState(false)
   const [isJoinModalOpened, setIsJoinModalOpened] = useState(false)
   const { account } = useWeb3React()
 
-  const { onEndLottery, onDistributeReward } = useLottery()
+  const { onEndLottery, onClaimLotteryReward } = useLottery()
   const lotteryState = useLotteryState()
   const { currentLotteryId, currentLottery, userData, owner, maxTicketQuantityPerJoin, numberOfWinners } = lotteryState
   const currrentLotteryPlayers = currentLottery && currentLottery.players ? currentLottery.players : []
@@ -56,7 +56,7 @@ const Lottery = () => {
   const currentLotteryMaxTicketCnt = currentLottery && currentLottery.maxTicketCnt ? currentLottery.maxTicketCnt : 0
   const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
 
-  const zeusTokenBalanceInWallet = Number(userData && userData.tokenBalance ? userData.tokenBalance : 0).toFixed(1)
+  const zeusTokenBalanceInWallet = Number(userData && userData.tokenBalance ? userData.tokenBalance : 0).toFixed(2)
   const currentAmountInPrizePool = (currentLotteryTicketPrice * currrentLotteryPlayers.length * 0.6).toFixed(2)
   const maxAmountInPrizePool = currentLotteryTicketPrice * currentLotteryMaxTicketCnt * 0.6
   const ticketsFromWallet = currrentLotteryPlayers.filter(
@@ -109,17 +109,17 @@ const Lottery = () => {
   }
 
   // distribute rewards
-  const onDistribute = async () => {
-    if (isDistributionPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Closed') return
+  const onClaim = async () => {
+    if (isClaimPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Closed') return
 
-    setIsDistributionPending(true)
+    setIsClaimPending(true)
 
     try {
-      await onDistributeReward(currentLotteryId)
+      await onClaimLotteryReward(currentLotteryId)
     } catch (err) {
       console.log('Ending lottery error:', err)
     }
-    setIsDistributionPending(false)
+    setIsClaimPending(false)
   }
 
   const onToggleJoinLotteryModal = () => {
@@ -272,10 +272,10 @@ const Lottery = () => {
 
               {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Closed' && (
                 <StyledButton
-                  disabled={isDistributionPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Closed'}
-                  onClick={onDistribute}
+                  disabled={isClaimPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Closed'}
+                  onClick={onClaim}
                 >
-                  {isEndPending ? 'Pending...' : 'Distribute reward'}
+                  {isEndPending ? 'Pending...' : 'Claim reward'}
                 </StyledButton>
               )}
 

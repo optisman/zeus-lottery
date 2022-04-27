@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
 import { useLotteryContract, useZeusContract } from 'hooks/useContract'
 import { fetchLotteryUserDataAsync, fetchLotteryGlobalDataAsync } from 'state/actions'
-import { approveToken, createLottery, enterLottery, endLottery, distributeReward } from 'utils/callHelpers'
+import { approveToken, createLottery, enterLottery, endLottery, claimReward } from 'utils/callHelpers'
 
 export const useLottery = () => {
   const dispatch = useDispatch()
@@ -41,8 +41,8 @@ export const useLottery = () => {
     console.info(txHash)
   }, [account, dispatch, LotteryContract])
 
-  const handleDistributeReward = useCallback(async (lotteryId) => {
-    const txHash = await distributeReward(LotteryContract, lotteryId, account)
+  const handleClaimLotteryReward = useCallback(async (lotteryId) => {
+    const txHash = await claimReward(LotteryContract, lotteryId, account)
     dispatch(fetchLotteryUserDataAsync(account))
     dispatch(fetchLotteryGlobalDataAsync())
     console.info(txHash)
@@ -53,6 +53,6 @@ export const useLottery = () => {
     onCreateLottery: handleCreateLottery,
     onEnterLottery: handleEnterLottery,
     onEndLottery: handleEndLottery,
-    onDistributeReward: handleDistributeReward
+    onClaimLotteryReward: handleClaimLotteryReward
   }
 }

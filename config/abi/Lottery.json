@@ -14,6 +14,17 @@
   {
     "anonymous": false,
     "inputs": [
+      { "indexed": true, "internalType": "address", "name": "winner", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "rewardAmount", "type": "uint256" },
+      { "indexed": true, "internalType": "uint256", "name": "lotteryId", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "LotteryClaimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
       { "indexed": true, "internalType": "address", "name": "creator", "type": "address" },
       { "indexed": true, "internalType": "uint256", "name": "lotteryId", "type": "uint256" },
       { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
@@ -53,11 +64,8 @@
     "type": "event"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_participant", "type": "address" },
-      { "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }
-    ],
-    "name": "_enterLottery",
+    "inputs": [{ "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }],
+    "name": "claimReward",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -77,13 +85,6 @@
     "name": "currentLotteryId",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }],
-    "name": "distributeWinnerReward",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -123,7 +124,8 @@
             "name": "players",
             "type": "tuple[]"
           },
-          { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" }
+          { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" },
+          { "internalType": "bool", "name": "isRewardClaimed", "type": "bool" }
         ],
         "internalType": "struct Lottery.LotteryInfo",
         "name": "",
@@ -140,7 +142,8 @@
       { "internalType": "uint256", "name": "ticketPrice", "type": "uint256" },
       { "internalType": "uint256", "name": "maxTicketCnt", "type": "uint256" },
       { "internalType": "address", "name": "creator", "type": "address" },
-      { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" }
+      { "internalType": "enum Lottery.LOTTERY_STATE", "name": "status", "type": "uint8" },
+      { "internalType": "bool", "name": "isRewardClaimed", "type": "bool" }
     ],
     "stateMutability": "view",
     "type": "function"

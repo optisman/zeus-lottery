@@ -33,9 +33,9 @@ export const endLottery = async (LotteryContract, lotteryId, account) => {
         })
 }
 
-export const distributeReward = async (LotteryContract, lotteryId, account) => {
+export const claimReward = async (LotteryContract, lotteryId, account) => {
     return LotteryContract.methods
-        .distributeWinnerReward(lotteryId)
+        .claimReward(lotteryId)
         .send({ from: account })
         .on('transactionHash', (tx) => {
             return tx.transactionHash
