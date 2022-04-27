@@ -26,7 +26,7 @@ export interface LotteryInfo {
   creator: string
   winners: number[]
   status: number
-  ticketPrice: BigNumber
+  ticketPrice: number
   maxTicketCnt: number
 }
 

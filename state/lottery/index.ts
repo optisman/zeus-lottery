@@ -12,7 +12,7 @@ const initialState: LotteryState = {
     creator: "",
     winners: [],
     status: 0,
-    ticketPrice: new BigNumber(0),
+    ticketPrice: 0,
     maxTicketCnt: 0,
   },
   payToken: "",

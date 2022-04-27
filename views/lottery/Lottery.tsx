@@ -51,7 +51,10 @@ const Lottery = () => {
   const currrentLotteryPlayers = currentLottery && currentLottery.players ? currentLottery.players : []
   const currrentLotteryWinners = currentLottery && currentLottery.winners ? currentLottery.winners : []
   const currrentLotteryStatus = currentLottery && currentLottery.status ? currentLottery.status : 0
+  const currentLotteryTicketPrice = currentLottery && currentLottery.ticketPrice ? currentLottery.ticketPrice : 0
   const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
+
+  const prizePoolAmount = currentLotteryTicketPrice * currrentLotteryPlayers.length * 0.6
 
   const isOwner = account && account.toLowerCase() === owner?.toLowerCase()
 
@@ -132,6 +135,18 @@ const Lottery = () => {
               </CardIcon>
             </CardTop>
             <CardBottom>{currrentLotteryPlayers.length}</CardBottom>
+          </LotteryInfoCard>
+
+          {/* lottery prize pool */}
+          <LotteryInfoCard>
+            <CardBgImg src="images/gradient-green.png" />
+            <CardTop>
+              <CardTitle>Lottery Prize Pool</CardTitle>
+              <CardIcon>
+                <i className="uil uil-trophy icon"></i>
+              </CardIcon>
+            </CardTop>
+            <CardBottom>{`${prizePoolAmount} Zenus`}</CardBottom>
           </LotteryInfoCard>
 
           {/* lottery winners */}

@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import LotteryAbi from 'config/abi/Lottery.json'
 import multicall from 'utils/multicall'
 import { getLotteryAddress } from 'utils/addressHelpers'
+import { getBalanceInEther } from 'utils/formatBalance'
 
 
 export const fetchGlobalData = async () => {
@@ -62,7 +63,8 @@ export const fetchGlobalData = async () => {
     return {
       ...lottery,
       players,
-      winners: winners
+      winners: winners,
+      ticketPrice: getBalanceInEther(new BigNumber(lottery.ticketPrice._hex))
     }
   })
 
