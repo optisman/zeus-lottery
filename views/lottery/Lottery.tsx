@@ -55,18 +55,29 @@ const Lottery = () => {
 
   const isOwner = account && account.toLowerCase() === owner?.toLowerCase()
 
-  const participantsWithWinnerOrder = currrentLotteryPlayers
-    .map((player) => {
-      return {
-        address: player.account,
-        joinedTime: moment
-          .utc(Number(player.joinedTimestamp) * 1000)
-          .local()
-          .format('YYYY-MM-DD HH:mm:ss'),
-        isWinner: currrentLotteryWinners.includes(player.ticketId) ? 1 : 0,
-      }
-    })
-    .sort((player1, player2) => (player1.isWinner > player2.isWinner ? -1 : 1))
+  const participantsWithWinnerOrder = currrentLotteryPlayers.map((player) => {
+    return {
+      address: player.account,
+      joinedTime: moment
+        .utc(Number(player.joinedTimestamp) * 1000)
+        .local()
+        .format('YYYY-MM-DD HH:mm:ss'),
+      isWinner: currrentLotteryWinners.includes(player.ticketId) ? 1 : 0,
+    }
+  })
+
+  const winnersWithInfo = currrentLotteryWinners.map((winner) => {
+    const winnerInfo = currrentLotteryPlayers.find((row) => row.ticketId === winner)
+    return {
+      ticketId: winner,
+      address: winnerInfo?.account,
+      joinedTime: moment
+        .utc(Number(winnerInfo?.joinedTimestamp) * 1000)
+        .local()
+        .format('YYYY-MM-DD HH:mm:ss'),
+    }
+  })
+  // .sort((player1, player2) => (player1.isWinner > player2.isWinner ? -1 : 1))
 
   useEffect(() => {
     if (account) {
@@ -240,12 +251,12 @@ const Lottery = () => {
               </thead>
 
               <tbody>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((player1, index) => {
-                  const player = participantsWithWinnerOrder[index]
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
+                  const winner = winnersWithInfo[index]
                   return (
                     <tr key={index}>
                       <td>{getRankingText(index + 1)}</td>
-                      <td>{player && player.isWinner ? player.address : ''}</td>
+                      <td>{winner && winner.address ? winner.address : ''}</td>
                       <td>{getRewardPercentage(index + 1)}</td>
                     </tr>
                   )
