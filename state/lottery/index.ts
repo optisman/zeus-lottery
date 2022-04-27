@@ -14,6 +14,7 @@ const initialState: LotteryState = {
     status: 0,
     ticketPrice: 0,
     maxTicketCnt: 0,
+    isRewardClaimed: false
   },
   payToken: "",
   owner: "",
