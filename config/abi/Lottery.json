@@ -4,7 +4,9 @@
       { "internalType": "address", "name": "_payToken", "type": "address" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
       { "internalType": "uint256", "name": "_numberOfWinners", "type": "uint256" },
-      { "internalType": "uint256", "name": "_maxTicketQuantityPerJoin", "type": "uint256" }
+      { "internalType": "uint256", "name": "_maxTicketQuantityPerJoin", "type": "uint256" },
+      { "internalType": "uint256", "name": "_prizePoolPortion", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "_winnerRewardPercentages", "type": "uint256[]" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -75,6 +77,13 @@
     "name": "currentLotteryId",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "_lotteryId", "type": "uint256" }],
+    "name": "distributeWinnerReward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -174,6 +183,13 @@
     "stateMutability": "view",
     "type": "function"
   },
+  {
+    "inputs": [],
+    "name": "prizePoolPortion",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
   { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
   {
     "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
@@ -201,6 +217,13 @@
     "name": "updateTreasury",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "winnerRewardPercentages",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   }
 ]

@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
 import { useLotteryContract, useZeusContract } from 'hooks/useContract'
 import { fetchLotteryUserDataAsync, fetchLotteryGlobalDataAsync } from 'state/actions'
-import { approveToken, createLottery, enterLottery, endLottery } from 'utils/callHelpers'
+import { approveToken, createLottery, enterLottery, endLottery, distributeReward } from 'utils/callHelpers'
 
 export const useLottery = () => {
   const dispatch = useDispatch()
@@ -25,6 +25,15 @@ export const useLottery = () => {
     console.info(txHash)
   }, [account, dispatch, LotteryContract])
 
+
+
+  const handleEnterLottery = useCallback(async (lotteryId, ticketQuantity) => {
+    const txHash = await enterLottery(LotteryContract, lotteryId, ticketQuantity, account)
+    dispatch(fetchLotteryUserDataAsync(account))
+    dispatch(fetchLotteryGlobalDataAsync())
+    console.info(txHash)
+  }, [account, dispatch, LotteryContract])
+
   const handleEndLottery = useCallback(async (lotteryId) => {
     const txHash = await endLottery(LotteryContract, lotteryId, account)
     dispatch(fetchLotteryUserDataAsync(account))
@@ -32,8 +41,8 @@ export const useLottery = () => {
     console.info(txHash)
   }, [account, dispatch, LotteryContract])
 
-  const handleEnterLottery = useCallback(async (lotteryId, ticketQuantity) => {
-    const txHash = await enterLottery(LotteryContract, lotteryId, ticketQuantity, account)
+  const handleDistributeReward = useCallback(async (lotteryId) => {
+    const txHash = await distributeReward(LotteryContract, lotteryId, account)
     dispatch(fetchLotteryUserDataAsync(account))
     dispatch(fetchLotteryGlobalDataAsync())
     console.info(txHash)
@@ -43,6 +52,7 @@ export const useLottery = () => {
     onApprove: handleApprove,
     onCreateLottery: handleCreateLottery,
     onEnterLottery: handleEnterLottery,
-    onEndLottery: handleEndLottery
+    onEndLottery: handleEndLottery,
+    onDistributeReward: handleDistributeReward
   }
 }
