@@ -18,6 +18,7 @@ const initialState: LotteryState = {
   payToken: "",
   owner: "",
   maxTicketQuantityPerJoin: 0,
+  numberOfWinners: 0,
   lotteries: [] as LotteryInfo[],
   userData: {}
 }
@@ -33,6 +34,7 @@ export const LotterySlice = createSlice({
       state.currentLottery = action.payload.lotteries[0];
       state.lotteries = action.payload.lotteries;
       state.maxTicketQuantityPerJoin = action.payload.maxTicketQuantityPerJoin;
+      state.numberOfWinners = action.payload.numberOfWinners;
     },
     setLotteryUserData: (state, action) => {
       state.userData = {
@@ -52,6 +54,7 @@ export const fetchLotteryGlobalDataAsync = () => async (dispatch) => {
     currentLotteryId,
     payToken,
     maxTicketQuantityPerJoin,
+    numberOfWinners,
     lotteries,
     owner
   } = await fetchGlobalData()
@@ -62,6 +65,7 @@ export const fetchLotteryGlobalDataAsync = () => async (dispatch) => {
       currentLotteryId,
       payToken,
       maxTicketQuantityPerJoin,
+      numberOfWinners,
       lotteries,
       owner
     }),

@@ -47,7 +47,7 @@ const Lottery = () => {
 
   const { onEndLottery } = useLottery()
   const lotteryState = useLotteryState()
-  const { currentLotteryId, currentLottery, userData, owner, maxTicketQuantityPerJoin } = lotteryState
+  const { currentLotteryId, currentLottery, userData, owner, maxTicketQuantityPerJoin, numberOfWinners } = lotteryState
   const currrentLotteryPlayers = currentLottery && currentLottery.players ? currentLottery.players : []
   const currrentLotteryWinners = currentLottery && currentLottery.winners ? currentLottery.winners : []
   const currrentLotteryStatus = currentLottery && currentLottery.status ? currentLottery.status : 0
@@ -229,7 +229,7 @@ const Lottery = () => {
         {/* lottery winner table */}
         <LotteryWinnerTableContainer>
           <LotteryWinnerTableTop>
-            <LotteryWinnerTableTitle>{`Winners [ ${currentLottery?.winners.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryWinnerTableTitle>
+            <LotteryWinnerTableTitle>{`Winners [ ${currentLottery?.winners.length} / ${numberOfWinners} ]`}</LotteryWinnerTableTitle>
             <LotteryTableAction>
               {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
                 <StyledButton
@@ -255,30 +255,32 @@ const Lottery = () => {
                 getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
             </LotteryTableAction>
           </LotteryWinnerTableTop>
-          <LotteryWinnerTableWrapper>
-            <LotteryWinnerTable>
-              <thead>
-                <tr>
-                  <th>Rankings</th>
-                  <th>Winner</th>
-                  <th>Percentage</th>
-                </tr>
-              </thead>
+          {
+            <LotteryWinnerTableWrapper>
+              <LotteryWinnerTable>
+                <thead>
+                  <tr>
+                    <th>Rankings</th>
+                    <th>Winner</th>
+                    <th>Percentage</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
-                  const winner = winnersWithInfo[index]
-                  return (
-                    <tr key={index}>
-                      <td>{getRankingText(index + 1)}</td>
-                      <td>{winner && winner.address ? winner.address : ''}</td>
-                      <td>{getRewardPercentage(index + 1)}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </LotteryWinnerTable>
-          </LotteryWinnerTableWrapper>
+                <tbody>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
+                    const winner = winnersWithInfo[index]
+                    return (
+                      <tr key={index}>
+                        <td>{getRankingText(index + 1)}</td>
+                        <td>{winner && winner.address ? winner.address : ''}</td>
+                        <td>{getRewardPercentage(index + 1)}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </LotteryWinnerTable>
+            </LotteryWinnerTableWrapper>
+          }
         </LotteryWinnerTableContainer>
 
         <Box p={3}>
@@ -415,6 +417,8 @@ const StyledButton = styled(Button)<{ isApproveBtn?: boolean }>`
   color: ${({ isApproveBtn }) => (isApproveBtn ? '#fff' : '#214099')};
   margin-left: 20px;
   cursor: pointer;
+  width: 120px;
+  height: 40px;
 `
 
 const LotteryStatus = styled.div`
