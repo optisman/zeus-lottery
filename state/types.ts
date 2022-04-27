@@ -28,6 +28,7 @@ export interface LotteryInfo {
   status: number
   ticketPrice: number
   maxTicketCnt: number
+  isRewardClaimed: boolean
 }
 
 export interface LotteryUserInfo {

@@ -54,6 +54,8 @@ const Lottery = () => {
   const currrentLotteryStatus = currentLottery && currentLottery.status ? currentLottery.status : 0
   const currentLotteryTicketPrice = currentLottery && currentLottery.ticketPrice ? currentLottery.ticketPrice : 0
   const currentLotteryMaxTicketCnt = currentLottery && currentLottery.maxTicketCnt ? currentLottery.maxTicketCnt : 0
+  const currentLotteryRewardClaimed =
+    currentLottery && currentLottery.isRewardClaimed ? currentLottery.isRewardClaimed : false
   const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
 
   const zeusTokenBalanceInWallet = Number(userData && userData.tokenBalance ? userData.tokenBalance : 0).toFixed(2)
@@ -110,7 +112,13 @@ const Lottery = () => {
 
   // distribute rewards
   const onClaim = async () => {
-    if (isClaimPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Closed') return
+    if (
+      currentLotteryRewardClaimed ||
+      isClaimPending ||
+      !account ||
+      getLotteryStatus[currrentLotteryStatus] !== 'Closed'
+    )
+      return
 
     setIsClaimPending(true)
 
@@ -272,7 +280,12 @@ const Lottery = () => {
 
               {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Closed' && (
                 <StyledButton
-                  disabled={isClaimPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Closed'}
+                  disabled={
+                    currentLotteryRewardClaimed ||
+                    isClaimPending ||
+                    !account ||
+                    getLotteryStatus[currrentLotteryStatus] !== 'Closed'
+                  }
                   onClick={onClaim}
                 >
                   {isEndPending ? 'Pending...' : 'Claim reward'}
