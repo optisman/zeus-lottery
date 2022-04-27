@@ -54,6 +54,8 @@ const Lottery = () => {
   const currentLotteryTicketPrice = currentLottery && currentLottery.ticketPrice ? currentLottery.ticketPrice : 0
   const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
 
+  const zeusTokenBalanceInWallet = userData?.tokenBalance
+
   const prizePoolAmount = currentLotteryTicketPrice * currrentLotteryPlayers.length * 0.6
 
   const isOwner = account && account.toLowerCase() === owner?.toLowerCase()
@@ -117,24 +119,24 @@ const Lottery = () => {
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-green.png" />
             <CardTop>
-              <CardTitle>Current Lottery ID</CardTitle>
+              <CardTitle>Wallet Balance</CardTitle>
               <CardIcon>
                 <i className="uil uil-list-ul icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{currentLotteryId || 0}</CardBottom>
+            <CardBottom>{`${zeusTokenBalanceInWallet?.toLocaleString() || 0} zeus`}</CardBottom>
           </LotteryInfoCard>
 
           {/* lottery participants */}
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-blue.png" />
             <CardTop>
-              <CardTitle>Lottery Participants</CardTitle>
+              <CardTitle>Tickets Sold</CardTitle>
               <CardIcon>
                 <i className="uil uil-users-alt icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{currrentLotteryPlayers.length}</CardBottom>
+            <CardBottom>{`${currrentLotteryPlayers.length} / ${currentLottery?.maxTicketCnt}`}</CardBottom>
           </LotteryInfoCard>
 
           {/* lottery prize pool */}
@@ -147,18 +149,6 @@ const Lottery = () => {
               </CardIcon>
             </CardTop>
             <CardBottom>{`${prizePoolAmount} Zenus`}</CardBottom>
-          </LotteryInfoCard>
-
-          {/* lottery winners */}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-pink.png" />
-            <CardTop>
-              <CardTitle>Lottery Winners</CardTitle>
-              <CardIcon>
-                <i className="uil uil-trophy icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{currrentLotteryWinners.length}</CardBottom>
           </LotteryInfoCard>
         </LotteryInfoCards>
 
@@ -417,7 +407,6 @@ const StyledButton = styled(Button)<{ isApproveBtn?: boolean }>`
   color: ${({ isApproveBtn }) => (isApproveBtn ? '#fff' : '#214099')};
   margin-left: 20px;
   cursor: pointer;
-  width: 120px;
   height: 40px;
 `
 
