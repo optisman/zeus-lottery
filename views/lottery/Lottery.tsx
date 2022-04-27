@@ -55,7 +55,7 @@ const Lottery = () => {
   const currentLotteryMaxTicketCnt = currentLottery && currentLottery.maxTicketCnt ? currentLottery.maxTicketCnt : 0
   const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
 
-  const zeusTokenBalanceInWallet = userData?.tokenBalance
+  const zeusTokenBalanceInWallet = Number(userData && userData.tokenBalance ? userData.tokenBalance : 0).toFixed(1)
   const currentAmountInPrizePool = currentLotteryTicketPrice * currrentLotteryPlayers.length * 0.6
   const maxAmountInPrizePool = currentLotteryTicketPrice * currentLotteryMaxTicketCnt * 0.6
   const ticketsFromWallet = currrentLotteryPlayers.filter(
