@@ -177,11 +177,11 @@ const Lottery = () => {
             <CardBottom>{`${currentLotteryTicketPrice?.toLocaleString() || 0} ZEUS 💰`}</CardBottom>
           </LotteryInfoCard>
 
-          {/* ticket bought from wallet */}
+          {/* MY OWNED TICKETS */}
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-green.png" />
             <CardTop>
-              <CardTitle>Tickets bought from Balance</CardTitle>
+              <CardTitle>MY OWNED TICKETS</CardTitle>
               <CardIcon>
                 <i className="uil uil-list-ul icon"></i>
               </CardIcon>
@@ -315,10 +315,11 @@ const Lottery = () => {
                   {isEndPending ? 'Pending...' : 'Claim reward'}
                 </StyledButton>
               )}
-
               {currentLotteryId !== undefined &&
                 currentLotteryId > 0 &&
-                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>LOTTERY CLOSED🔐</LotteryStatus>}
+                getLotteryStatus[currrentLotteryStatus] !== 'Active' && (
+                  <LotteryStatus>{`LOTTERY CLOSED 🔐`}</LotteryStatus>
+                )}
             </LotteryTableAction>
           </LotteryWinnerTableTop>
           {
@@ -326,19 +327,27 @@ const Lottery = () => {
               <LotteryWinnerTable>
                 <thead>
                   <tr>
-                    <th>Rankings</th>
-                    <th>Winner</th>
-                    <th>Percentage</th>
+                    <th>{`RANGKINGS`}</th>
+                    <th>{`WINNERS 🏆`}</th>
+                    <th>{`PERCENRTAGE`}</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
                     const winner = winnersWithInfo[index]
+                    let winnerAddress = winner && winner.address ? winner.address : ''
+                    if (winnerAddress.length > 0) {
+                      if (index === 0) winnerAddress = `${winnerAddress} 🥇`
+                      if (index === 1) winnerAddress = `${winnerAddress} 🥈`
+                      if (index === 2) winnerAddress = `${winnerAddress} 🥈`
+                      if (index === 3) winnerAddress = `${winnerAddress} 🏅`
+                    }
+
                     return (
                       <tr key={index}>
                         <td>{getRankingText(index + 1)}</td>
-                        <td>{winner && winner.address ? winner.address : ''}</td>
+                        <td>{winnerAddress}</td>
                         <td>{getRewardPercentage(index + 1)}</td>
                       </tr>
                     )
@@ -491,7 +500,6 @@ const LotteryStatus = styled.div`
   font-size: 24px;
   color: red;
   font-weight: 600;
-  margin-top: 10px;
   font-family: 'Work Sans', sans-serif;
   margin-left: 20px;
 `
