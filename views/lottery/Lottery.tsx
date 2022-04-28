@@ -327,9 +327,9 @@ const Lottery = () => {
               <LotteryWinnerTable>
                 <thead>
                   <tr>
-                    <th>{`RANGKINGS`}</th>
+                    <th>{`RANKINGS`}</th>
                     <th>{`WINNERS 🏆`}</th>
-                    <th>{`PERCENRTAGE`}</th>
+                    <th>{`PERCENTAGE`}</th>
                   </tr>
                 </thead>
 
@@ -341,7 +341,7 @@ const Lottery = () => {
                       if (index === 0) winnerAddress = `${winnerAddress} 🥇`
                       if (index === 1) winnerAddress = `${winnerAddress} 🥈`
                       if (index === 2) winnerAddress = `${winnerAddress} 🥉`
-                      if (index === 3) winnerAddress = `${winnerAddress} 🏅`
+                      if (index >= 3) winnerAddress = `${winnerAddress} 🏅`
                     }
 
                     return (
@@ -571,7 +571,7 @@ const LotteryTableAction = styled.div`
 const LotteryWinnerTableWrapper = styled.div`
   overflow-y: auto;
   margin: 5px 0 !important;
-  max-height: 565px;
+  max-height: 590px;
 `
 
 const LotteryWinnerTable = styled.table`
