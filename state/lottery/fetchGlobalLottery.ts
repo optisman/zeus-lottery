@@ -47,8 +47,7 @@ export const fetchGlobalData = async () => {
       {
         address: getLotteryAddress(),
         name: 'getLotteryInfo',
-        // params: [new BigNumber(currentLotteryId).toNumber()]
-        params: [1]
+        params: [new BigNumber(currentLotteryId).toNumber()]
       }
     ],
   )
