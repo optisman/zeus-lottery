@@ -19,12 +19,12 @@ const Header = (props: Props) => {
             <a href="/">
               <img src="images/logo.png" alt="logo" />
             </a>
-            ZEUS Node
+            ZEUS LOTTERY
           </HeaderLogo>
         </HeaderLeft>
         <HeaderRight>
           <HeaderMenu>
-            <a href="/lottery">Lottery</a>
+            {/* <a href="/lottery">Lottery</a> */}
             {isOwner && <a href="/lottery-admin">Lottery Admin</a>}
           </HeaderMenu>
           <HeaderAction>

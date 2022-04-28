@@ -137,11 +137,11 @@ const Lottery = () => {
   return (
     <LotteryContainer>
       <LotteryContent>
-        <LotteryTitle>ZEUS Lottery</LotteryTitle>
+        {/* <LotteryTitle>ZEUS Lottery</LotteryTitle> */}
 
         {/* lottery general info */}
         <LotteryInfoCards>
-          {/* zeus balance in wallet */}
+          {/* ZEUS balance in wallet */}
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-green.png" />
             <CardTop>
@@ -150,7 +150,7 @@ const Lottery = () => {
                 <i className="uil uil-wallet icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${zeusTokenBalanceInWallet?.toLocaleString() || 0} zeus`}</CardBottom>
+            <CardBottom>{`${zeusTokenBalanceInWallet?.toLocaleString() || 0} ZEUS 💰`}</CardBottom>
           </LotteryInfoCard>
 
           {/* current lottery id */}
@@ -162,7 +162,7 @@ const Lottery = () => {
                 <i className="uil uil-wallet icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{currentLotteryId}</CardBottom>
+            <CardBottom>{`${currentLotteryId} ⚡️`}</CardBottom>
           </LotteryInfoCard>
 
           {/* ticket price in current lottery*/}
@@ -174,7 +174,7 @@ const Lottery = () => {
                 <i className="uil uil-wallet icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${currentLotteryTicketPrice?.toLocaleString() || 0} zeus`}</CardBottom>
+            <CardBottom>{`${currentLotteryTicketPrice?.toLocaleString() || 0} ZEUS 💰`}</CardBottom>
           </LotteryInfoCard>
 
           {/* ticket bought from wallet */}
@@ -186,10 +186,10 @@ const Lottery = () => {
                 <i className="uil uil-list-ul icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${ticketsFromWallet} tickets`}</CardBottom>
+            <CardBottom>{`${ticketsFromWallet} TICKETS 🎫`}</CardBottom>
           </LotteryInfoCard>
 
-          {/* total tickets sold */}
+          {/* total TICKETS sold */}
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-blue.png" />
             <CardTop>
@@ -198,7 +198,7 @@ const Lottery = () => {
                 <i className="uil uil-users-alt icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${currrentLotteryPlayers.length} / ${currentLotteryMaxTicketCnt} tickets`}</CardBottom>
+            <CardBottom>{`${currrentLotteryPlayers.length} / ${currentLotteryMaxTicketCnt} TICKETS 🎫`}</CardBottom>
           </LotteryInfoCard>
 
           {/* lottery prize pool */}
@@ -210,7 +210,7 @@ const Lottery = () => {
                 <i className="uil uil-trophy icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${currentAmountInPrizePool} / ${maxAmountInPrizePool} zeus`}</CardBottom>
+            <CardBottom>{`${currentAmountInPrizePool} / ${maxAmountInPrizePool} ZEUS 💰`}</CardBottom>
           </LotteryInfoCard>
         </LotteryInfoCards>
 
@@ -318,7 +318,7 @@ const Lottery = () => {
 
               {currentLotteryId !== undefined &&
                 currentLotteryId > 0 &&
-                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>LOTTERY CLOSED</LotteryStatus>}
+                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>LOTTERY CLOSED🔐</LotteryStatus>}
             </LotteryTableAction>
           </LotteryWinnerTableTop>
           {
@@ -437,6 +437,7 @@ const CardTitle = styled.div`
   color: #8eb7f5;
   font-weight: 600;
   font-size: 14px;
+  text-transform: uppercase;
 `
 
 const CardIcon = styled.div`
