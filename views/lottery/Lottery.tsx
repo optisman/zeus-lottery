@@ -288,7 +288,7 @@ const Lottery = () => {
                   disabled={!account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
                   onClick={onToggleJoinLotteryModal}
                 >
-                  {`Join`}
+                  {`JOIN LOTTERY`}
                 </StyledButton>
               )}
 
@@ -318,7 +318,7 @@ const Lottery = () => {
 
               {currentLotteryId !== undefined &&
                 currentLotteryId > 0 &&
-                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
+                getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>LOTTERY CLOSED</LotteryStatus>}
             </LotteryTableAction>
           </LotteryWinnerTableTop>
           {
