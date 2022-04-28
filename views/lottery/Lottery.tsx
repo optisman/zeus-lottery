@@ -153,7 +153,19 @@ const Lottery = () => {
             <CardBottom>{`${zeusTokenBalanceInWallet?.toLocaleString() || 0} zeus`}</CardBottom>
           </LotteryInfoCard>
 
-          {/* ticket price */}
+          {/* current lottery id */}
+          <LotteryInfoCard>
+            <CardBgImg src="images/gradient-green.png" />
+            <CardTop>
+              <CardTitle>Lottery ID</CardTitle>
+              <CardIcon>
+                <i className="uil uil-wallet icon"></i>
+              </CardIcon>
+            </CardTop>
+            <CardBottom>{currentLotteryId}</CardBottom>
+          </LotteryInfoCard>
+
+          {/* ticket price in current lottery*/}
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-green.png" />
             <CardTop>
