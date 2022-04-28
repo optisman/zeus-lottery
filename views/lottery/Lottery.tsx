@@ -571,7 +571,7 @@ const LotteryTableAction = styled.div`
 const LotteryWinnerTableWrapper = styled.div`
   overflow-y: auto;
   margin: 5px 0 !important;
-  max-height: 550px;
+  max-height: 565px;
 `
 
 const LotteryWinnerTable = styled.table`
