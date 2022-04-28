@@ -8,6 +8,7 @@ import {
 } from 'utils/addressHelpers'
 import erc20Abi from 'config/abi/Erc20.json'
 import lotteryAbi from 'config/abi/Lottery.json'
+import zeusAbi from 'config/abi/Zeus.json'
 
 const useContract = (abi: AbiItem, address: string, contractOptions?: ContractOptions) => {
   const web3 = useWeb3()
@@ -27,7 +28,7 @@ export const useERC20Contract = (address: string) => {
 
 // erc20 token contract
 export const useZeusContract = () => {
-  return useContract((erc20Abi as unknown) as AbiItem, getZeusAddress())
+  return useContract((zeusAbi as unknown) as AbiItem, getZeusAddress())
 }
 
 // vault contract (lottery)

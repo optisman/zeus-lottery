@@ -1,6 +1,6 @@
 // Set of helper functions to facilitate wallet setup
 
-import { nodes } from './getRpcUrl'
+import { mainnetNodes, testnetNodes } from './getRpcUrl'
 
 /**
  * Prompt the user to add Avalanche as a network on Metamask, or switch to Avalanche if the wallet is on a different network
@@ -11,28 +11,57 @@ export const setupNetwork = async () => {
   if (provider) {
     const chainId = parseInt(process.env.REACT_APP_CHAIN_ID || '43113', 10)
 
-    try {
-      await provider.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: `0xA869`,
-            chainName: 'Avalanche Testnet',
-            nativeCurrency: {
-              name: 'Avalanche testnet',
-              symbol: 'AVAX',
-              decimals: 18,
+    if (chainId === 43113) {
+      try {
+        await provider.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: `0xA869`,
+              chainName: 'Avalanche Testnet',
+              nativeCurrency: {
+                name: 'Avalanche testnet',
+                symbol: 'AVAX',
+                decimals: 18,
+              },
+              rpcUrls: testnetNodes,
+              blockExplorerUrls: ['https://testnet.snowtrace.io'],
             },
-            rpcUrls: nodes,
-            blockExplorerUrls: ['https://testnet.snowtrace.io'],
-          },
-        ],
-      })
-      return true
-    } catch (error) {
-      console.error(error)
-      return false
+          ],
+        })
+        return true
+      } catch (error) {
+        console.error(error)
+        return false
+      }
     }
+
+    if (chainId === 43114) {
+      try {
+        await provider.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: `0xA86A`,
+              chainName: 'Avalanche Mainnet',
+              nativeCurrency: {
+                name: 'Avalanche mainnet',
+                symbol: 'AVAX',
+                decimals: 18,
+              },
+              rpcUrls: mainnetNodes,
+              blockExplorerUrls: ['https://snowtrace.io'],
+            },
+          ],
+        })
+        return true
+      } catch (error) {
+        console.error(error)
+        return false
+      }
+    }
+
+
   } else {
     console.error("Can't setup the Avalanche network on metamask because window.ethereum is undefined")
     return false

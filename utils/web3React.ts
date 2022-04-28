@@ -44,7 +44,7 @@ const AVALANCHE_TESTNET_PARAMS = {
 }
 
 const walletlink = new WalletLinkConnector({
-  url: AVALANCHE_TESTNET_PARAMS.rpcUrls[0],
+  url: chainId === 43114 ? AVALANCHE_MAINNET_PARAMS.rpcUrls[0] : AVALANCHE_TESTNET_PARAMS.rpcUrls[0],
   appName: 'Lottery dApp',
   appLogoUrl: '/images/hpie-logo.png',
 })
@@ -54,7 +54,6 @@ const bscConnector = new BscConnector({ supportedChainIds: [chainId] })
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
-  [ConnectorNames.BSC]: bscConnector,
   [ConnectorNames.Coinbase]: walletlink,
 }
 

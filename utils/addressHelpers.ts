@@ -2,8 +2,9 @@ import addresses from 'config/constants/contracts'
 import { Address } from 'config/constants/types'
 
 export const getAddress = (address: Address): string => {
-  const mainNetChainId = 43114
-  const chainId = 43113
+  const mainNetChainId = '43114'
+  const chainId = parseInt(process.env.REACT_APP_CHAIN_ID || mainNetChainId, 10)
+
   return address[chainId] ? address[chainId] : address[mainNetChainId]
 }
 
