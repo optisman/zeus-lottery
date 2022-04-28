@@ -281,7 +281,7 @@ const Lottery = () => {
         {/* lottery winner table */}
         <LotteryWinnerTableContainer>
           <LotteryWinnerTableTop>
-            <LotteryWinnerTableTitle>{`Winners [ ${currentLottery?.winners.length} / ${numberOfWinners} ]`}</LotteryWinnerTableTitle>
+            <LotteryWinnerTableTitle>{`WINNERS [ ${currentLottery?.winners.length} / ${numberOfWinners} ]`}</LotteryWinnerTableTitle>
             <LotteryTableAction>
               {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
                 <StyledButton
@@ -340,7 +340,7 @@ const Lottery = () => {
                     if (winnerAddress.length > 0) {
                       if (index === 0) winnerAddress = `${winnerAddress} 🥇`
                       if (index === 1) winnerAddress = `${winnerAddress} 🥈`
-                      if (index === 2) winnerAddress = `${winnerAddress} 🥈`
+                      if (index === 2) winnerAddress = `${winnerAddress} 🥉`
                       if (index === 3) winnerAddress = `${winnerAddress} 🏅`
                     }
 
