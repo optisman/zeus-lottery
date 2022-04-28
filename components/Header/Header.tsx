@@ -1,9 +1,16 @@
 import styled from 'styled-components'
+import { useWeb3React } from '@web3-react/core'
 import { ConnectWallet } from 'components/ConnectWallet'
+import { useLotteryState } from 'state/hooks'
 
 type Props = {}
 
 const Header = (props: Props) => {
+  const { account } = useWeb3React()
+  const lotteryState = useLotteryState()
+  const { owner } = lotteryState
+  const isOwner = account && account.toLowerCase() === owner?.toLowerCase()
+
   return (
     <StyledHeader>
       <StyledHeaderContent>
@@ -18,7 +25,7 @@ const Header = (props: Props) => {
         <HeaderRight>
           <HeaderMenu>
             <a href="/lottery">Lottery</a>
-            <a href="/lottery-admin">Lottery Admin</a>
+            {isOwner && <a href="/lottery-admin">Lottery Admin</a>}
           </HeaderMenu>
           <HeaderAction>
             <ConnectWallet isHeaderBtn={true} />
