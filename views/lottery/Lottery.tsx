@@ -35,7 +35,7 @@ const getRewardPercentage = (ranking) => {
   if (ranking === 7) return '3.00%'
   if (ranking === 8) return '2.00%'
   if (ranking === 9) return '2.00%'
-  if (ranking === 10) return '1 Zeus Node'
+  if (ranking === 10) return '1 ZEUS NODE'
 }
 
 const Lottery = () => {
