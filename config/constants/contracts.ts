@@ -7,7 +7,7 @@ export default {
 
   // lottery
   lottery: {
-    43114: '0x4423DD6780C6AB31C239d1720187Fd0d2F35Cba3',
+    43114: '0x3e54Da889Dd993a2e364E0dfcd3e1E834Fb93E84',
     43113: '0x6f84674Bc767584c9Ef09f528135fCd60674c2d3'
   },
 
