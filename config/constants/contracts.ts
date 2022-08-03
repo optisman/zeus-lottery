@@ -5,6 +5,11 @@ export default {
     43113: '0x80062bA06a43A9f92Bf0500c4Faa8c37b96DD6c0',
   },
 
+  usdc: {
+    43114: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+    43113: '0x80062bA06a43A9f92Bf0500c4Faa8c37b96DD6c0',
+  },
+
   // lottery
   lottery: {
     // 43114: '0x3e54Da889Dd993a2e364E0dfcd3e1E834Fb93E84', // zeus lottery

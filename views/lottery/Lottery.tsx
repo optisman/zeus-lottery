@@ -58,7 +58,7 @@ const Lottery = () => {
     currentLottery && currentLottery.isRewardClaimed ? currentLottery.isRewardClaimed : false
   const isApproved = userData && userData.allowance && getBalanceInEther(userData.allowance) > 0
 
-  const zeusTokenBalanceInWallet = Number(userData && userData.tokenBalance ? userData.tokenBalance : 0).toFixed(2)
+  const usdcTokenBalanceInWallet = Number(userData && userData.tokenBalance ? userData.tokenBalance : 0).toFixed(2)
   const currentAmountInPrizePool = (currentLotteryTicketPrice * currrentLotteryPlayers.length * 0.6).toFixed(2)
   const maxAmountInPrizePool = currentLotteryTicketPrice * currentLotteryMaxTicketCnt * 0.6
   const ticketsFromWallet = currrentLotteryPlayers.filter(
@@ -137,11 +137,11 @@ const Lottery = () => {
   return (
     <LotteryContainer>
       <LotteryContent>
-        {/* <LotteryTitle>ZEUS Lottery</LotteryTitle> */}
+        {/* <LotteryTitle>USDC Lottery</LotteryTitle> */}
 
         {/* lottery general info */}
         <LotteryInfoCards>
-          {/* ZEUS balance in wallet */}
+          {/* USDC balance in wallet */}
           <LotteryInfoCard>
             <CardBgImg src="images/gradient-green.png" />
             <CardTop>
@@ -150,7 +150,7 @@ const Lottery = () => {
                 <i className="uil uil-wallet icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${zeusTokenBalanceInWallet?.toLocaleString() || 0} ZEUS 💰`}</CardBottom>
+            <CardBottom>{`${usdcTokenBalanceInWallet?.toLocaleString() || 0} USDC 💰`}</CardBottom>
           </LotteryInfoCard>
 
           {/* current lottery id */}
@@ -174,7 +174,7 @@ const Lottery = () => {
                 <i className="uil uil-wallet icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${currentLotteryTicketPrice?.toLocaleString() || 0} ZEUS 💰`}</CardBottom>
+            <CardBottom>{`${currentLotteryTicketPrice?.toLocaleString() || 0} USDC 💰`}</CardBottom>
           </LotteryInfoCard>
 
           {/* MY OWNED TICKETS */}
@@ -210,7 +210,7 @@ const Lottery = () => {
                 <i className="uil uil-trophy icon"></i>
               </CardIcon>
             </CardTop>
-            <CardBottom>{`${currentAmountInPrizePool} / ${maxAmountInPrizePool} ZEUS 💰`}</CardBottom>
+            <CardBottom>{`${currentAmountInPrizePool} / ${maxAmountInPrizePool} USDC 💰`}</CardBottom>
           </LotteryInfoCard>
         </LotteryInfoCards>
 

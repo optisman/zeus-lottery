@@ -19,7 +19,7 @@ const Header = (props: Props) => {
             <a href="/">
               <img src="images/logo.png" alt="logo" />
             </a>
-            ZEUS LOTTERY
+            USDC LOTTERY
           </HeaderLogo>
         </HeaderLeft>
         <HeaderRight>

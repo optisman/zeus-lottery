@@ -1,23 +1,30 @@
-import { getZeusAddress } from 'utils/addressHelpers'
+import { getZeusAddress, getUsdcAddress } from 'utils/addressHelpers'
 import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from 'config/constants/common'
 
 export const getTokenPrice = (address: string): number => {
   if (address.toLowerCase() === getZeusAddress().toLowerCase()) {
-    return 15;
+    return 15
+  }
+  if (address.toLowerCase() === getUsdcAddress().toLowerCase()) {
+    return 1
   }
 
-  return 10;
+  return 10
 }
 
-
 export const getTvl = (tokenAddress?: string, totalLockedAmount?: number): number => {
-  if (!tokenAddress || !totalLockedAmount) return 0;
+  if (!tokenAddress || !totalLockedAmount) return 0
   return getTokenPrice(tokenAddress) * totalLockedAmount
 }
 
-export const getApy = (rewardTokenAddress?: string, rewardPerBlock?: number, rewardAllocation?: number, tvl?: number): number => {
-  if (!rewardTokenAddress || !rewardPerBlock || !rewardAllocation || !tvl) return 0;
+export const getApy = (
+  rewardTokenAddress?: string,
+  rewardPerBlock?: number,
+  rewardAllocation?: number,
+  tvl?: number,
+): number => {
+  if (!rewardTokenAddress || !rewardPerBlock || !rewardAllocation || !tvl) return 0
   const blocksPerYear = SECONDS_PERY_YEAR / BLOCK_GENERATION_TIME
-  const apy = getTokenPrice(rewardTokenAddress) * rewardPerBlock * blocksPerYear / tvl
-  return apy > 999 ? 999 : apy;
+  const apy = (getTokenPrice(rewardTokenAddress) * rewardPerBlock * blocksPerYear) / tvl
+  return apy > 999 ? 999 : apy
 }

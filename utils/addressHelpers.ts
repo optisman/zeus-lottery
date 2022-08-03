@@ -12,6 +12,9 @@ export const getZeusAddress = () => {
   return getAddress(addresses.zeus)
 }
 
+export const getUsdcAddress = () => {
+  return getAddress(addresses.usdc)
+}
 
 export const getLotteryAddress = () => {
   return getAddress(addresses.lottery)
@@ -23,5 +26,6 @@ export const getMulticallAddress = () => {
 
 export const getTokenName = (address: string) => {
   if (address.toLowerCase() === getZeusAddress().toLowerCase()) return 'ZEUS'
+  if (address.toLowerCase() === getUsdcAddress().toLowerCase()) return 'USDC'
   return 'Unknown'
 }
