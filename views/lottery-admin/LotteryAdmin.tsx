@@ -42,7 +42,7 @@ const LotteryAdmin = () => {
     setCreationPending(true)
 
     try {
-      await onCreateLottery(getBalanceInWei(Number(ticketPrice)), maxTicketCnt)
+      await onCreateLottery(getBalanceInWei(Number(ticketPrice), 6), maxTicketCnt)
 
       setTicketPrice(0)
       setMaxTicketCnt(0)

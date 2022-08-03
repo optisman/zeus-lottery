@@ -7,8 +7,9 @@ export default {
 
   // lottery
   lottery: {
-    43114: '0x3e54Da889Dd993a2e364E0dfcd3e1E834Fb93E84',
-    43113: '0x6f84674Bc767584c9Ef09f528135fCd60674c2d3'
+    // 43114: '0x3e54Da889Dd993a2e364E0dfcd3e1E834Fb93E84', // zeus lottery
+    43114: '0x90281a0987E2f85a77a0C516c1504dAF0aE1afb7', // usdc lottery
+    43113: '0x6f84674Bc767584c9Ef09f528135fCd60674c2d3',
   },
 
   // multicall
