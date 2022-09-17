@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import store from 'state'
 import { ModalProvider } from 'widgets/Modal'
 import '../styles/globals.css'
+import './styles1.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const AnyComponent = Component as any

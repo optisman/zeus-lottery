@@ -1,7 +1,6 @@
 import React from 'react'
 import type { NextPage } from 'next'
-import { Header } from 'components/Header'
-import { Footer } from 'components/Footer'
+import { Sidebar } from 'components/Sidebar'
 import { Lottery } from 'views/lottery'
 import { useFetchPublicData } from 'state/hooks'
 
@@ -10,9 +9,8 @@ const HomePage: NextPage = () => {
 
   return (
     <>
-      <Header />
+      <Sidebar />
       <Lottery />
-      <Footer />
     </>
   )
 }
