@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Button } from 'theme-ui'
 import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import moment from 'moment'
 import { useLottery } from 'hooks/useLottery'
@@ -9,6 +7,7 @@ import { useLotteryState } from 'state/hooks'
 import { fetchLotteryUserDataAsync } from 'state/actions'
 import { getBalanceInEther } from 'utils/formatBalance'
 import { JoinModal } from './JoinModal'
+import { ConnectWallet } from 'components/ConnectWallet'
 
 const getLotteryStatus = {
   0: 'Not Started',
@@ -135,476 +134,174 @@ const Lottery = () => {
   }
 
   return (
-    <LotteryContainer>
-      <LotteryContent>
-        {/* <LotteryTitle>USDC Lottery</LotteryTitle> */}
+    <div className="main-content">
+      <div className="url-notice">
+        Please ensure you are at the correct url: <i className="uil uil-lock"></i>{' '}
+        <span className="url">https://lottery.zeusfinance.org</span>
+      </div>
+      <div className="top-nav">
+        <div className="container">
+          <ConnectWallet isHeaderBtn={true} />
+          <button className="btn btn-primary menu-toggle-btn">
+            <label htmlFor="nav-toggle" className="">
+              <i className="uil uil-bars nav-open"></i>
+              <i className="uil uil-times nav-close"></i>
+            </label>
+          </button>
+        </div>
+      </div>
 
-        {/* lottery general info */}
-        <LotteryInfoCards>
-          {/* USDC balance in wallet */}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-green.png" />
-            <CardTop>
-              <CardTitle>Wallet Balance</CardTitle>
-              <CardIcon>
-                <i className="uil uil-wallet icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{`${usdcTokenBalanceInWallet?.toLocaleString() || 0} USDC 💰`}</CardBottom>
-          </LotteryInfoCard>
+      <div className="container">
+        <div className="page-title dash-title">
+          LOTTERY
+          <div className="title-underline">
+            <img src="/images/undline.png" className="" />
+          </div>
+        </div>
 
-          {/* current lottery id */}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-green.png" />
-            <CardTop>
-              <CardTitle>Lottery ID</CardTitle>
-              <CardIcon>
-                <i className="uil uil-wallet icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{`${currentLotteryId} ⚡️`}</CardBottom>
-          </LotteryInfoCard>
+        <div className="page-section">
+          <div className="lottery-cards">
+            <div className="lottery-card glass-card">
+              <div className="lottery-card-title">Wallet Balance</div>
+              <div className="lottery-card-value gold-text">
+                0 <span className="card-value-currency">USDC</span>
+              </div>
+            </div>
 
-          {/* ticket price in current lottery*/}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-green.png" />
-            <CardTop>
-              <CardTitle>Ticket Price</CardTitle>
-              <CardIcon>
-                <i className="uil uil-wallet icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{`${currentLotteryTicketPrice?.toLocaleString() || 0} USDC 💰`}</CardBottom>
-          </LotteryInfoCard>
+            <div className="lottery-card glass-card">
+              <div className="lottery-card-title">Lottery ID</div>
+              <div className="lottery-card-value gold-text">11</div>
+            </div>
 
-          {/* MY OWNED TICKETS */}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-green.png" />
-            <CardTop>
-              <CardTitle>MY OWNED TICKETS</CardTitle>
-              <CardIcon>
-                <i className="uil uil-list-ul icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{`${ticketsFromWallet} TICKETS 🎫`}</CardBottom>
-          </LotteryInfoCard>
+            <div className="lottery-card glass-card">
+              <div className="lottery-card-title">Ticket Price</div>
+              <div className="lottery-card-value gold-text">
+                10 <span className="card-value-currency">USDC</span>
+              </div>
+            </div>
 
-          {/* total TICKETS sold */}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-blue.png" />
-            <CardTop>
-              <CardTitle>Tickets Sold</CardTitle>
-              <CardIcon>
-                <i className="uil uil-users-alt icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{`${currrentLotteryPlayers.length} / ${currentLotteryMaxTicketCnt} TICKETS 🎫`}</CardBottom>
-          </LotteryInfoCard>
+            <div className="lottery-card glass-card">
+              <div className="lottery-card-title">My Owned Tickets</div>
+              <div className="lottery-card-value gold-text">0</div>
+            </div>
 
-          {/* lottery prize pool */}
-          <LotteryInfoCard>
-            <CardBgImg src="images/gradient-green.png" />
-            <CardTop>
-              <CardTitle>Lottery Prize Pool</CardTitle>
-              <CardIcon>
-                <i className="uil uil-trophy icon"></i>
-              </CardIcon>
-            </CardTop>
-            <CardBottom>{`${currentAmountInPrizePool} / ${maxAmountInPrizePool} USDC 💰`}</CardBottom>
-          </LotteryInfoCard>
-        </LotteryInfoCards>
+            <div className="lottery-card glass-card">
+              <div className="lottery-card-title">Tickets Sold</div>
+              <div className="lottery-card-value gold-text">54/500</div>
+            </div>
 
-        {/* lottery participants table */}
-        {/* {getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-          <LotteryParticipantTableContainer>
-            <LotteryParticipantTableTop>
-              <LotteryParticipantTableTitle>{`Participants [ ${currentLottery?.players.length} / ${currentLottery?.maxTicketCnt} ]`}</LotteryParticipantTableTitle>
-              <LotteryParticipantTableAction>
-                {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-                  <StyledButton
-                    disabled={!account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
-                    onClick={onToggleJoinLotteryModal}
-                  >
-                    {`Join`}
-                  </StyledButton>
-                )}
+            <div className="lottery-card glass-card">
+              <div className="lottery-card-title">Lottery Prize Pool</div>
+              <div className="lottery-card-value gold-text">
+                324/3000 <span className="card-value-currency">USDC</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-                  <StyledButton
-                    isApproveBtn={isApproved}
-                    disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
-                    onClick={onClose}
-                  >
-                    {isEndPending ? 'Pending...' : 'End Lottery'}
-                  </StyledButton>
-                )}
+        <div className="page-section"></div>
 
-                {currentLotteryId !== undefined &&
-                  currentLotteryId > 0 &&
-                  getLotteryStatus[currrentLotteryStatus] !== 'Active' && <LotteryStatus>Closed</LotteryStatus>}
-              </LotteryParticipantTableAction>
-            </LotteryParticipantTableTop>
-            <LotteryParticipantTableWrapper>
-              <LotteryParticipantTable>
-                <thead>
-                  <tr>
-                    <th>S/No</th>
-                    <th>Wallet</th>
-                    <th>Joined On</th>
-                    <th>Status</th>
-                    <th>Reward</th>
-                  </tr>
-                </thead>
+        <div className="glass-card lottery-winners">
+          <div className="lottery-winners-card-title">Lottery Winners</div>
+          <div className="lottery-winners-table table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Ranking</th>
+                  <th>Winners</th>
+                  <th>Percentage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-                <tbody>
-                  {participantsWithWinnerOrder.map((player, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{player.address}</td>
-                        <td>{player.joinedTime}</td>
-                        <td>
-                          <ParticipantStatus isWinner={player.isWinner === 1 ? true : false}>
-                            {player.isWinner ? 'Winner' : 'Prticipated'}
-                          </ParticipantStatus>
-                        </td>
-                        <td>{`--`}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </LotteryParticipantTable>
-            </LotteryParticipantTableWrapper>
-          </LotteryParticipantTableContainer>
-        )} */}
+                <tr>
+                  <td>2</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-        {/* lottery winner table */}
-        <LotteryWinnerTableContainer>
-          <LotteryWinnerTableTop>
-            <LotteryWinnerTableTitle>{`WINNERS [ ${currentLottery?.winners.length} / ${numberOfWinners} ]`}</LotteryWinnerTableTitle>
-            <LotteryTableAction>
-              {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-                <StyledButton
-                  disabled={!account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
-                  onClick={onToggleJoinLotteryModal}
-                >
-                  {`JOIN LOTTERY`}
-                </StyledButton>
-              )}
+                <tr>
+                  <td>3</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
-                <StyledButton
-                  isApproveBtn={isApproved}
-                  disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
-                  onClick={onClose}
-                >
-                  {isEndPending ? 'Pending...' : 'End Lottery'}
-                </StyledButton>
-              )}
+                <tr>
+                  <td>4</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Closed' && (
-                <StyledButton
-                  disabled={
-                    currentLotteryRewardClaimed ||
-                    isClaimPending ||
-                    !account ||
-                    getLotteryStatus[currrentLotteryStatus] !== 'Closed'
-                  }
-                  onClick={onClaim}
-                >
-                  {isEndPending ? 'Pending...' : 'Claim reward'}
-                </StyledButton>
-              )}
-              {currentLotteryId !== undefined &&
-                currentLotteryId > 0 &&
-                getLotteryStatus[currrentLotteryStatus] !== 'Active' && (
-                  <LotteryStatus>{`LOTTERY CLOSED 🔐`}</LotteryStatus>
-                )}
-            </LotteryTableAction>
-          </LotteryWinnerTableTop>
-          {
-            <LotteryWinnerTableWrapper>
-              <LotteryWinnerTable>
-                <thead>
-                  <tr>
-                    <th>{`RANKINGS`}</th>
-                    <th>{`WINNERS 🏆`}</th>
-                    <th>{`PERCENTAGE`}</th>
-                  </tr>
-                </thead>
+                <tr>
+                  <td>5</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-                <tbody>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
-                    const winner = winnersWithInfo[index]
-                    let winnerAddress = winner && winner.address ? winner.address : ''
-                    if (winnerAddress.length > 0) {
-                      if (index === 0) winnerAddress = `${winnerAddress} 🥇`
-                      if (index === 1) winnerAddress = `${winnerAddress} 🥈`
-                      if (index === 2) winnerAddress = `${winnerAddress} 🥉`
-                      if (index >= 3) winnerAddress = `${winnerAddress} 🏅`
-                    }
+                <tr>
+                  <td>6</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-                    return (
-                      <tr key={index}>
-                        <td>{getRankingText(index + 1)}</td>
-                        <td>{winnerAddress}</td>
-                        <td>{getRewardPercentage(index + 1)}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </LotteryWinnerTable>
-            </LotteryWinnerTableWrapper>
-          }
-        </LotteryWinnerTableContainer>
+                <tr>
+                  <td>7</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-        <Box p={3}>
-          <Box
-            sx={{
-              marginTop: 0,
-              marginBottom: 90,
-            }}
-          ></Box>
-        </Box>
+                <tr>
+                  <td>8</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
 
-        {isJoinModalOpened && <JoinModal modalIsOpen={isJoinModalOpened} closeModal={onToggleJoinLotteryModal} />}
-      </LotteryContent>
-    </LotteryContainer>
+                <tr>
+                  <td>9</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
+
+                <tr>
+                  <td>10</td>
+                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
+                  <td>50%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div className="footer">
+        <div className="container">
+          <div className="copyright">Copyright &copy; 2022 Zeus Finance</div>
+
+          <div className="socials">
+            <a href="https://twitter.com/ZeusFinanceOrg" target="_blank">
+              <i className="uil uil-twitter"></i>
+            </a>
+            <a href="https://t.me/zeusfinanceorg" target="_blank">
+              <i className="uil uil-telegram"></i>
+            </a>
+            <a href="https://medium.com/the-olympus-post" target="_blank">
+              <i className="uil uil-medium-m"></i>
+            </a>
+            <a href="https://www.youtube.com/channel/UC1rRw5AqlxdgUV2nfWqcyfQ" target="_blank">
+              <i className="uil uil-youtube"></i>
+            </a>
+            <a href="https://discord.gg/ZeusFinance" target="_blank">
+              <i className="uil uil-discord"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
-
-// container
-const LotteryContainer = styled.div`
-  padding: 2rem 0;
-  background: #1f224a;
-  min-height: calc(100vh - 90px);
-`
-
-// content
-const LotteryContent = styled.div`
-  padding: 0 36px;
-  max-width: 1200px;
-  margin: 0 auto;
-`
-
-// title
-const LotteryTitle = styled.div`
-  font-size: 32px;
-  font-family: 'Work Sans', sans-serif;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 20px;
-  text-align: center;
-`
-
-// general info card
-const LotteryInfoCards = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 30px;
-  margin-bottom: 30px;
-
-  @media only screen and (min-width: 768px) and (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media only screen and (min-width: 560px) and (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-  @media only screen and (max-width: 560px) {
-    grid-template-columns: 1fr;
-  }
-`
-
-const LotteryInfoCard = styled.div`
-  background-color: #0c0f38;
-  padding: 16px;
-  border-radius: 8px;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 16px;
-`
-
-const CardBgImg = styled.img`
-  position: absolute;
-  width: 315px;
-  height: 315px;
-  right: -155px;
-  top: -155px;
-  opacity: 0.4;
-`
-
-const CardTop = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-`
-
-const CardTitle = styled.div`
-  font-family: 'Work Sans', sans-serif;
-  color: #8eb7f5;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-`
-
-const CardIcon = styled.div`
-  background: #8eb7f5;
-  padding: 7px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  margin-right: 12px;
-`
-
-const CardBottom = styled.div`
-  font-size: 20px;
-  color: #fff;
-  font-weight: 600;
-  font-family: 'Work Sans', sans-serif;
-`
-
-// lottery participants table
-const LotteryParticipantTableContainer = styled.div``
-
-const LotteryParticipantTableTop = styled.div`
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`
-
-const LotteryParticipantTableTitle = styled.div`
-  font-size: 24px;
-  color: #fff;
-  font-weight: 600;
-  margin-top: 10px;
-  font-family: 'Work Sans', sans-serif;
-`
-
-const LotteryParticipantTableAction = styled.div`
-  display: flex;
-`
-
-const StyledButton = styled(Button)<{ isApproveBtn?: boolean }>`
-  background: ${({ isApproveBtn }) =>
-    isApproveBtn ? 'linear-gradient(107.61deg, #3282f3 -4.47%, #203f99 103.79%)' : '#E3E9F8'};
-  color: ${({ isApproveBtn }) => (isApproveBtn ? '#fff' : '#214099')};
-  margin-left: 20px;
-  cursor: pointer;
-  height: 40px;
-`
-
-const LotteryStatus = styled.div`
-  font-size: 24px;
-  color: red;
-  font-weight: 600;
-  font-family: 'Work Sans', sans-serif;
-  margin-left: 20px;
-`
-
-const LotteryParticipantTableWrapper = styled.div`
-  overflow-y: auto;
-  margin: 5px 0 !important;
-  max-height: 500px;
-`
-
-const LotteryParticipantTable = styled.table`
-  width: 100%;
-  border: 1px solid #0c0f38;
-  border-radius: 8px;
-  color: #bebebe;
-  text-align: start;
-
-  th,
-  tr,
-  td {
-    padding: 0.75rem 0.5rem;
-    text-align: start;
-  }
-
-  thead {
-    vertical-align: bottom;
-    background-color: #2e3c67;
-  }
-
-  tbody tr td {
-    border-bottom: 1px solid #8eb7f5;
-  }
-`
-
-const ParticipantStatus = styled.div<{ isWinner?: boolean }>`
-  padding: 5px 12px;
-  border-radius: 20px;
-  color: #fff;
-  width: max-content;
-  font-weight: 600;
-  font-size: 12px;
-  background-color: ${({ isWinner }) => (isWinner ? '#219A8B' : '#989A21')};
-`
-
-// lottery winner table
-
-// lottery participants table
-const LotteryWinnerTableContainer = styled.div``
-
-const LotteryWinnerTableTop = styled.div`
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`
-
-const LotteryWinnerTableTitle = styled.div`
-  font-size: 24px;
-  color: #fff;
-  font-weight: 600;
-  margin-top: 10px;
-  font-family: 'Work Sans', sans-serif;
-`
-
-const LotteryTableAction = styled.div`
-  display: flex;
-`
-
-const LotteryWinnerTableWrapper = styled.div`
-  overflow-y: auto;
-  margin: 5px 0 !important;
-  max-height: 590px;
-`
-
-const LotteryWinnerTable = styled.table`
-  width: 100%;
-  border: 1px solid #0c0f38;
-  border-radius: 8px;
-  color: #bebebe;
-  text-align: start;
-
-  th,
-  tr,
-  td {
-    padding: 0.75rem 0.5rem;
-    text-align: start;
-  }
-
-  thead {
-    vertical-align: bottom;
-    background-color: #2e3c67;
-  }
-
-  tbody tr td {
-    border-bottom: 1px solid #8eb7f5;
-  }
-`
-
-const WinnerStatus = styled.div<{ isWinner?: boolean }>`
-  padding: 5px 12px;
-  border-radius: 20px;
-  color: #fff;
-  width: max-content;
-  font-weight: 600;
-  font-size: 12px;
-  background-color: ${({ isWinner }) => (isWinner ? '#219A8B' : '#989A21')};
-`
 export default Lottery

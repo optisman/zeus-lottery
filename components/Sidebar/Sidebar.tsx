@@ -36,7 +36,7 @@ const Sidebar = (props: Props) => {
               </a>
             </li>
 
-            <li className="menu-link active">
+            <li className="menu-link">
               <a href="#" className="menu-content">
                 <i className="uil uil-money-withdraw"></i>
                 <span className="menu-link-text">Earn</span>
@@ -50,7 +50,7 @@ const Sidebar = (props: Props) => {
               </a>
             </li>
 
-            <li className="menu-link">
+            <li className="menu-link active">
               <a href="https://lottery.zeusfinance.org" className="menu-content">
                 <i className="uil uil-play-circle"></i>
                 <span className="menu-link-text">Lottery</span>
