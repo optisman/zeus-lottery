@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import moment from 'moment'
+import { Box, Button } from 'theme-ui'
 import { useLottery } from 'hooks/useLottery'
 import { useLotteryState } from 'state/hooks'
 import { fetchLotteryUserDataAsync } from 'state/actions'
 import { getBalanceInEther } from 'utils/formatBalance'
 import { JoinModal } from './JoinModal'
 import { ConnectWallet } from 'components/ConnectWallet'
+import styled from 'styled-components'
 
 const getLotteryStatus = {
   0: 'Not Started',
@@ -164,36 +166,39 @@ const Lottery = () => {
             <div className="lottery-card glass-card">
               <div className="lottery-card-title">Wallet Balance</div>
               <div className="lottery-card-value gold-text">
-                0 <span className="card-value-currency">USDC</span>
+                {`${usdcTokenBalanceInWallet?.toLocaleString() || 0}`}
+                <span className="card-value-currency">USDC</span>
               </div>
             </div>
 
             <div className="lottery-card glass-card">
               <div className="lottery-card-title">Lottery ID</div>
-              <div className="lottery-card-value gold-text">11</div>
+              <div className="lottery-card-value gold-text">{currentLotteryId}</div>
             </div>
 
             <div className="lottery-card glass-card">
               <div className="lottery-card-title">Ticket Price</div>
               <div className="lottery-card-value gold-text">
-                10 <span className="card-value-currency">USDC</span>
+                {`${currentLotteryTicketPrice?.toLocaleString() || 0}`}
+                <span className="card-value-currency">USDC</span>
               </div>
             </div>
 
             <div className="lottery-card glass-card">
               <div className="lottery-card-title">My Owned Tickets</div>
-              <div className="lottery-card-value gold-text">0</div>
+              <div className="lottery-card-value gold-text">{ticketsFromWallet}</div>
             </div>
 
             <div className="lottery-card glass-card">
               <div className="lottery-card-title">Tickets Sold</div>
-              <div className="lottery-card-value gold-text">54/500</div>
+              <div className="lottery-card-value gold-text">{`${currrentLotteryPlayers.length} / ${currentLotteryMaxTicketCnt}`}</div>
             </div>
 
             <div className="lottery-card glass-card">
               <div className="lottery-card-title">Lottery Prize Pool</div>
               <div className="lottery-card-value gold-text">
-                324/3000 <span className="card-value-currency">USDC</span>
+                {`${currentAmountInPrizePool} / ${maxAmountInPrizePool}`}
+                <span className="card-value-currency">{` USDC`}</span>
               </div>
             </div>
           </div>
@@ -202,7 +207,48 @@ const Lottery = () => {
         <div className="page-section"></div>
 
         <div className="glass-card lottery-winners">
-          <div className="lottery-winners-card-title">Lottery Winners</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className="lottery-winners-card-title">Lottery Winners</div>
+            <LotteryTableAction>
+              {!isOwner && account && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+                <StyledButton
+                  disabled={!account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
+                  onClick={onToggleJoinLotteryModal}
+                >
+                  {`JOIN LOTTERY`}
+                </StyledButton>
+              )}
+
+              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Active' && (
+                <StyledButton
+                  isApproveBtn={isApproved}
+                  disabled={isEndPending || !account || getLotteryStatus[currrentLotteryStatus] !== 'Active'}
+                  onClick={onClose}
+                >
+                  {isEndPending ? 'Pending...' : 'End Lottery'}
+                </StyledButton>
+              )}
+
+              {isOwner && getLotteryStatus[currrentLotteryStatus] === 'Closed' && (
+                <StyledButton
+                  disabled={
+                    currentLotteryRewardClaimed ||
+                    isClaimPending ||
+                    !account ||
+                    getLotteryStatus[currrentLotteryStatus] !== 'Closed'
+                  }
+                  onClick={onClaim}
+                >
+                  {isEndPending ? 'Pending...' : 'Claim reward'}
+                </StyledButton>
+              )}
+              {currentLotteryId !== undefined &&
+                currentLotteryId > 0 &&
+                getLotteryStatus[currrentLotteryStatus] !== 'Active' && (
+                  <LotteryStatus>{`LOTTERY CLOSED 🔐`}</LotteryStatus>
+                )}
+            </LotteryTableAction>
+          </div>
           <div className="lottery-winners-table table-responsive">
             <table className="table">
               <thead>
@@ -213,70 +259,31 @@ const Lottery = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
+                  const winner = winnersWithInfo[index]
+                  let winnerAddress = winner && winner.address ? winner.address : ''
+                  if (winnerAddress.length > 0) {
+                    if (index === 0) winnerAddress = `${winnerAddress} 🥇`
+                    if (index === 1) winnerAddress = `${winnerAddress} 🥈`
+                    if (index === 2) winnerAddress = `${winnerAddress} 🥉`
+                    if (index >= 3) winnerAddress = `${winnerAddress} 🏅`
+                  }
 
-                <tr>
-                  <td>2</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>3</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>4</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>5</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>6</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>7</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>8</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>9</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
-
-                <tr>
-                  <td>10</td>
-                  <td>0x4fBfC9F6bF774703276D97fceD6021d2515f875E</td>
-                  <td>50%</td>
-                </tr>
+                  return (
+                    <tr key={index}>
+                      <td>{getRankingText(index + 1)}</td>
+                      <td>{winnerAddress}</td>
+                      <td>{getRewardPercentage(index + 1)}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+
+      {isJoinModalOpened && <JoinModal modalIsOpen={isJoinModalOpened} closeModal={onToggleJoinLotteryModal} />}
 
       <div className="footer">
         <div className="container">
@@ -304,4 +311,25 @@ const Lottery = () => {
     </div>
   )
 }
+
+const LotteryTableAction = styled.div`
+  display: flex;
+`
+
+const StyledButton = styled(Button)<{ isApproveBtn?: boolean }>`
+  background: ${({ isApproveBtn }) =>
+    isApproveBtn ? 'linear-gradient(107.61deg, #3282f3 -4.47%, #203f99 103.79%)' : '#E3E9F8'};
+  color: ${({ isApproveBtn }) => (isApproveBtn ? '#fff' : '#214099')};
+  margin-left: 20px;
+  cursor: pointer;
+  height: 40px;
+`
+const LotteryStatus = styled.div`
+  font-size: 24px;
+  color: red;
+  font-weight: 600;
+  font-family: 'Work Sans', sans-serif;
+  margin-left: 20px;
+`
+
 export default Lottery
